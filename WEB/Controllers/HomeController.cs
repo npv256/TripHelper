@@ -48,7 +48,6 @@ namespace WEB.Controllers
                 {
                     return Content("<script language='javascript' type='text/javascript'>alert('Выберите файл с форматом KML!');</script>");
                 }
-                // сохраняем файл в папку Files в проекте
                 upload.SaveAs(Server.MapPath("~/Content/Tracks/" + fileName));
             }
             return RedirectToAction("Index", new {Track = fileName} );

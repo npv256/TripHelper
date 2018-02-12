@@ -13,7 +13,7 @@ namespace WEB.Controllers
         {
             if (name == null)
                 name = "Baigura";
-            var kml = System.IO.File.ReadAllText(System.Web.HttpContext.Current.Server.MapPath("/Content/"+name+".kml"));
+            var kml = System.IO.File.ReadAllText(System.Web.HttpContext.Current.Server.MapPath("/Content/Tracks/"+name+".kml"));
             return Content(kml);
         }
     }
