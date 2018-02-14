@@ -18,6 +18,7 @@ namespace DLL.Entities
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public virtual List<Track> Tracks { get; set; }
+        public string[] Pictures { get; set; }
 
         public Place()
         {

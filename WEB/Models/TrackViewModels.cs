@@ -9,6 +9,7 @@ namespace WEB.Models
 {
     public class TrackViewModels
     {
+        [Required]
         [StringLength(30, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 30)]
         public string Name { get; set; }
         public virtual List<Place> Places { get; set; }

@@ -3,7 +3,7 @@
     <div id="directions-panel"></div>
 </div>
 <div id="map"></div>
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Place", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -52,10 +52,8 @@
         
         <fieldset>
             <legend>Добавить изображение</legend>
-
-            <div class="editor-label">Файл изображения</div>
-            <input type="file" name="fileData" />
-            <input type="file" name="fileData" />
+            <input type="file" name="fileData" id="fileData" style="width: 100%;" />   
+            <input type="file" name="fileData" id="fileData" style="width: 100%;" />   
         </fieldset>
 
         <div class="form-group">
@@ -122,13 +120,13 @@
             });
         }
 
-        
+
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
 
         function setMapOnAll(map) {
                 for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(map); 
+                    markers[i].setMap(map);
                     markers = [];
                 }
             }
