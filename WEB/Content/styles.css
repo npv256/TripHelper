@@ -1,0 +1,27 @@
+  .stationInfo {
+        height: 150px;
+        width: 250px;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: gray;
+    }
+
+    #floating-panel {
+        position: absolute;
+        top: 5%;
+        right: 30%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto', 'sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }

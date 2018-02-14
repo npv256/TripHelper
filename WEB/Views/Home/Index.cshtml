@@ -2,46 +2,8 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
-
-<div class="row">
-    <div id="floating-panel">
-        <input onclick="clearMarkers();" type=button value="Hide Markers">
-        <input onclick="showMarkers();" type=button value="Show All Markers">
-        <input onclick="deleteMarkers();" type=button value="Delete Markers">
-        <input type="submit" id="submit" value="">
-    </div>
-    <div id="directions-panel"></div>
-</div>
-<style>
-    .stationInfo {
-        height: 150px;
-        width: 250px;
-    }
-
-    #map {
-        height: 850px;
-        width: 100%;
-        background: gray;
-    }
-
-    #floating-panel {
-        position: absolute;
-        top: 5%;
-        right: 30%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto', 'sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-    }
-</style>
-
 <div id="map"></div>
-
+@Styles.Render("~/Content/Styles.css")
 <script src="~/Scripts/gmaps.js"></script>
 <script>
 
