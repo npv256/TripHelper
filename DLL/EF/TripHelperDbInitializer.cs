@@ -45,6 +45,7 @@ namespace DLL.EF
                     Latitude = 1,
                     Longitude = 1,
                     Rating = 1,
+                    Pictures = new []{"7oXmpMxVc_w.jpg"},
                 };
                 db.Places.Add(p1);
                 Track t1 = new Track

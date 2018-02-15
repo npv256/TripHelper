@@ -7,6 +7,7 @@ using AutoMapper;
 using BLL.Interfaces;
 using DLL.Entities;
 using Microsoft.Ajax.Utilities;
+using Telerik.Web.Mvc.Extensions;
 using WEB.Models;
 
 namespace WEB.Controllers
@@ -21,6 +22,14 @@ namespace WEB.Controllers
             _userService = userService;
             _placeService = placeService;
         }
+        public ActionResult IndexMap()
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Place, PlaceViewModels>());
+            var mapper = config.CreateMapper();
+            var placeList = mapper.Map<List<Place>, List<PlaceViewModels>>(_placeService.GetItemList().ToList());
+            return View(placeList);
+        }
+
         // GET: Place
         public ActionResult Index()
         {
@@ -31,12 +40,13 @@ namespace WEB.Controllers
         }
 
         // GET: Place/Details/5
-        public ActionResult Details(long id)
+        public ActionResult Details2(long id)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Place, PlaceViewModels>());
             var mapper = config.CreateMapper();
             var placeViewModel = mapper.Map<Place, PlaceViewModels>(_placeService.GetItem(id));
-            return View(placeViewModel);
+            var s = _placeService.GetItem(id);
+            return  PartialView(placeViewModel);
         }
 
         // GET: Place/Create
@@ -62,21 +72,27 @@ namespace WEB.Controllers
 
                         if (fileData != null)
                         {
+                            fileData = fileData.Where(f => f != null);
                             foreach (var file in fileData)
                             {
                                     string fileName = System.IO.Path.GetFileName(file.FileName);
                                     file.SaveAs(Server.MapPath("../Content/Images/" + fileName));
                             }
+
                             placeModel.Pictures = fileData.Select(x => "../../Content/Images/" + System.IO.Path.GetFileName(x.FileName)).ToArray();
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Не выбрано не одного фото");
                         }
 
                         _placeService.Create(placeModel);
                         _placeService.Save();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("IndexMap");
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Place with such name is exist");
+                        ModelState.AddModelError("", "Место с таким названием уже существует");
                     }
                 }
             }
@@ -108,7 +124,7 @@ namespace WEB.Controllers
                var placeModel = mapper.Map<PlaceViewModels, Place>(plVModels);
                 _placeService.Update(placeModel);
                 _placeService.Save();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexMap");
             }
             catch(Exception e)
             {
@@ -120,7 +136,7 @@ namespace WEB.Controllers
         {
             _placeService.Delete(id);
             _placeService.Save();
-            return RedirectToAction("Index");
+            return RedirectToAction("IndexMap");
         }
     }
 }

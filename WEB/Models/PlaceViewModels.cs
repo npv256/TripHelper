@@ -25,6 +25,7 @@ namespace WEB.Models
         public float Latitude { get; set; }
         [Range(-180, 180, ErrorMessage = "Пожалуйста введите значение от -180.0 до +180.0")]
         public float Longitude { get; set; }
+        public string[] Pictures { get; set; }
 
         public PlaceViewModels()
         {
