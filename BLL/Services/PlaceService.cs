@@ -26,12 +26,19 @@ namespace BLL.Services
 
         public Place GetItem(long? id)
         {
-            return _db.Places.Get(id);
+            var somePlace = _db.Places.Get(id);
+            somePlace.Pictures = (from pic in _db.Pictures.GetAll()
+                                 where pic.PlaceId == id
+                                 select pic).ToList();
+            var s = _db.Pictures.GetAll().ToList();
+            return somePlace;
         }
 
         public void Create(Place item)
         {
             _db.Places.Create(item);
+            foreach (var pic in item.Pictures)
+                _db.Pictures.Create(pic);
         }
 
         public void Delete(long? s)

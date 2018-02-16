@@ -77,10 +77,15 @@ namespace WEB.Controllers
                             {
                                     string fileName = System.IO.Path.GetFileName(file.FileName);
                                     file.SaveAs(Server.MapPath("../Content/Images/" + fileName));
+                                Picture pic = new Picture
+                                {
+                                    Name = file.FileName,
+                                    Path = Server.MapPath("../Content/Images/" + fileName),
+                                };
+                                placeModel.Pictures.Add(pic);
                             }
-
-                            placeModel.Pictures = fileData.Select(x => "../../Content/Images/" + System.IO.Path.GetFileName(x.FileName)).ToArray();
-                        }
+                        
+                       }
                         else
                         {
                             ModelState.AddModelError("", "Не выбрано не одного фото");

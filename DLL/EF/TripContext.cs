@@ -15,6 +15,7 @@ namespace DLL.EF
         public DbSet<Place> Places { get; set; }
         public DbSet<CommentPlace> CommentsPlaces { get; set; }
         public DbSet<CommentTrack> CommentsTracks { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
 
         public TripContext()
         {

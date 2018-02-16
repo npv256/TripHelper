@@ -33,6 +33,8 @@
         right: 80%;
         bottom: 50%;
         background: gray;
+         border: 1px;
+         border-color : black;
 	}
 	
 	.ghepa1{
@@ -48,19 +50,20 @@
 .thumbnail
 {
 	
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 0px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    border-color : black;
 }
 
 .item{
 	 position: absolute;
-	 padding-left: 10px;
-	 width: 450px;
-        top: 70px;
-        left: 20px; 
+	 padding-left: 20px;
+	 width: 500px;
+        top: 60px;
+        left: 0px; 
         bottom: 600px;
         background: white;
 	}
@@ -70,8 +73,9 @@
 {
     float: none;
     width: 100%;
-    background-color: #fff;
+    background-color: gray;
     margin-bottom: 10px;
+     padding: 10px;
 }
 .item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
 {
@@ -88,6 +92,7 @@
 }
 .item.list-group-item .caption
 {
+    top: 10;
     padding: 9px 9px 0px 9px;
 }
 .item.list-group-item:nth-of-type(odd)

@@ -52,6 +52,7 @@ namespace WEB
             container.RegisterType<IRepository<User>, UserRepository>();
             container.RegisterType<IRepository<Track>, TrackRepository>();
             container.RegisterType<IRepository<Place>, PlaceRepository>();
+            container.RegisterType<IRepository<Picture>, PictureRepository>();
             container.RegisterType<IRepository<CommentPlace>, CommentPlaceRepository>();
             container.RegisterType<IRepository<CommentTrack>, CommentTrackRepository>();
 

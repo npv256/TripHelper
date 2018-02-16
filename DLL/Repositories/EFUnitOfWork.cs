@@ -15,6 +15,7 @@ namespace DLL.Repositories
         private UserRepository _userRepository;
         private TrackRepository _trackRepository;
         private PlaceRepository _placeRepository;
+        private PictureRepository _pictureRepository;
         private CommentTrackRepository _commentTrackRepository;
         private CommentPlaceRepository _commentPlaceRepository;
 
@@ -50,6 +51,16 @@ namespace DLL.Repositories
                 if (_placeRepository == null)
                     _placeRepository = new PlaceRepository(db);
                 return _placeRepository;
+            }
+        }
+
+        public IRepository<Picture> Pictures
+        {
+            get
+            {
+                if (_pictureRepository == null)
+                    _pictureRepository = new PictureRepository(db);
+                return _pictureRepository;
             }
         }
 
