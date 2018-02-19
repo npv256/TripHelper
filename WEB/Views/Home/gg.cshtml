@@ -1,13 +1,4 @@
-﻿@model WEB.Models.ListPlaceUrlTrackModels
 <div id="map"></div>
-<div class="ButtonPanel">
-    <div class="btn-group btn-group-justified">
-        <a id="CreatePlace" class="btn btn-primary">Создать точку</a>
-        <a id="CreateTrack" class="btn btn-primary">Создать маршрут</a>
-    </div> 
-</div>
-<script src="~/Scripts/gmaps.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 
     var markers = [];
@@ -94,9 +85,6 @@
                     map);
             });
         }
-
-        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
-        $('#CreateTrackPanel').load('@Url.Action("Create", "Track")');
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
 

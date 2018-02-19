@@ -63,6 +63,7 @@
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\CommentPlace.cs" />
     <Compile Include="Entities\CommentTrack.cs" />
+    <Compile Include="Entities\Picture.cs" />
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\Track.cs" />
     <Compile Include="Entities\User.cs" />

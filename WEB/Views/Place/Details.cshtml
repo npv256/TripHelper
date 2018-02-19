@@ -1,43 +1,25 @@
 ﻿@model WEB.Models.PlaceViewModels
-    <div class="DetailsPlace">
-          
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Rating)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Rating)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Latitude)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Latitude)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Longitude)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Longitude)
-                </dd>           
+<div class="item  col-xs-4 col-lg-4">
+<div class="thumbnail">
+    <img class="group list-group-image" src="@Model.Pictures[0]" alt="" />
+    <div class="caption">
+        <h4 class="group inner list-group-item-heading">
+            @Model.Name</h4>
+        <p class="group inner list-group-item-text">
+            @Model.Latitude
+        </p>
+        <p class="group inner list-group-item-text">
+            @Model.Longitude
+        </p>
+        <p class="group inner list-group-item-text">
+            @Model.Description
+        </p>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <p class="lead">
+                    $21.000</p>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

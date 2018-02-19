@@ -18,13 +18,14 @@ namespace DLL.Entities
         public virtual User Author { get; set; }
         public virtual string TrackKml { get; set; }
         public virtual List<User> PartyUsers { get; set; }
-        public string[] Pictures { get; set; }
+        public List<Picture> Pictures { get; set; }
 
         public Track()
         {
             Places = new List<Place>();
             Comments = new List<CommentTrack>();
             PartyUsers = new List<User>();
+            Pictures = new List<Picture>();
         }
     }
 }

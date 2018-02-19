@@ -19,12 +19,13 @@ namespace WEB.Models
         public virtual User Author { get; set; }
         public virtual string TrackKml { get; set; }
         public virtual int PartyUsers { get; set; }
-        public string[] Pictures { get; set; }
+        public List<string> Pictures { get; set; }
 
         public TrackViewModels()
         {
             Places = new List<Place>();
             Comments = new List<CommentTrack>();
+            Pictures =new List<string>();
         }
     }
 }
