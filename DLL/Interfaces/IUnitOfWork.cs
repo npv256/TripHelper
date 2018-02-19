@@ -12,6 +12,7 @@ namespace DLL.Interfaces
         IRepository<User> Users { get; }
         IRepository<Place> Places { get; }
         IRepository<Track> Tracks { get; }
+        IRepository<Picture> Pictures { get; }
         IRepository<CommentPlace> CommentsPlaces { get; }
         IRepository<CommentTrack> CommentsTracks { get; }
         void Save();

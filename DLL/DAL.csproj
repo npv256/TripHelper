@@ -63,6 +63,7 @@
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\CommentPlace.cs" />
     <Compile Include="Entities\CommentTrack.cs" />
+    <Compile Include="Entities\Picture.cs" />
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\Track.cs" />
     <Compile Include="Entities\User.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Repositories\CommentPlaceRepository.cs" />
     <Compile Include="Repositories\CommentTrackRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
+    <Compile Include="Repositories\PictureRepository.cs" />
     <Compile Include="Repositories\PlaceRepository.cs" />
     <Compile Include="Repositories\TrackRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

@@ -36,6 +36,13 @@ namespace DLL.EF
                 db.Users.Add(u2);
                 db.Users.Add(u3);
                 db.SaveChanges();
+                Picture pic1 = new Picture
+                {
+                    id = 1,
+                    Name = "7oXmpMxVc_w.jpg",
+                    Path = "7oXmpMxVc_w.jpg",
+                };
+                db.Pictures.Add(pic1);
                 Place p1 = new Place
                 {
                     Id = 1,
@@ -45,7 +52,9 @@ namespace DLL.EF
                     Latitude = 1,
                     Longitude = 1,
                     Rating = 1,
+                    Pictures = new List<Picture>(),
                 };
+                p1.Pictures.Add(pic1);
                 db.Places.Add(p1);
                 Track t1 = new Track
                 {
