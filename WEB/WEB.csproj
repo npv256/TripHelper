@@ -374,6 +374,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ListPlaceUrlTrackModels.cs" />
     <Compile Include="Models\LoginModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
@@ -807,7 +808,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\ConstructTrack.cshtml" />
-    <Content Include="Views\Place\Create.cshtml" />
+    <Content Include="Views\Place\Create1.cshtml" />
     <Content Include="Views\Place\Index.cshtml" />
     <Content Include="Views\Place\Edit.cshtml" />
     <Content Include="Views\Place\Details1.cshtml" />
@@ -820,9 +821,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Place\Details.cshtml" />
+    <Content Include="Views\Place\DetailsAdmin.cshtml" />
     <Content Include="Views\Place\IndexMap.cshtml" />
-    <Content Include="Views\Place\Details2.cshtml" />
+    <Content Include="Views\Place\Details.cshtml" />
+    <Content Include="Views\Place\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

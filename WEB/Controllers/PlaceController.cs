@@ -40,7 +40,7 @@ namespace WEB.Controllers
         }
 
         // GET: Place/Details/5
-        public ActionResult Details2(long id)
+        public ActionResult Details(long id)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Place, PlaceViewModels>());
             var mapper = config.CreateMapper();
@@ -52,7 +52,7 @@ namespace WEB.Controllers
         // GET: Place/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Place/Create
@@ -77,15 +77,10 @@ namespace WEB.Controllers
                             {
                                     string fileName = System.IO.Path.GetFileName(file.FileName);
                                     file.SaveAs(Server.MapPath("../Content/Images/" + fileName));
-                                Picture pic = new Picture
-                                {
-                                    Name = file.FileName,
-                                    Path = Server.MapPath("../Content/Images/" + fileName),
-                                };
-                                placeModel.Pictures.Add(pic);
                             }
-                        
-                       }
+
+                            placeModel.Pictures=(fileData.Select(x => "../../Content/Images/" + System.IO.Path.GetFileName(x.FileName)).ToList());
+                        }
                         else
                         {
                             ModelState.AddModelError("", "Не выбрано не одного фото");
@@ -93,7 +88,7 @@ namespace WEB.Controllers
 
                         _placeService.Create(placeModel);
                         _placeService.Save();
-                        return RedirectToAction("IndexMap");
+                        return RedirectToAction("Index","Home");
                     }
                     else
                     {
@@ -103,10 +98,10 @@ namespace WEB.Controllers
             }
             catch
             {
-                return View(plVModel);
+                return PartialView(plVModel);
             }
 
-            return View(plVModel);
+            return PartialView(plVModel);
         }
 
         // GET: Place/Edit/5

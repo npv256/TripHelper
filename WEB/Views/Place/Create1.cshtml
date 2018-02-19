@@ -1,10 +1,9 @@
 ﻿@model WEB.Models.PlaceViewModels
-<div id="CreatePlaсePanel">
-    <button type="button" class="close" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+<div id="map"></div>
+<div class="CreatePlacePanel">
+
     @using (Html.BeginForm("Create", "Place", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
+            {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
@@ -67,3 +66,65 @@
     }
 </div>
 
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Scripts/gmaps.js"></script>
+<script>
+    var markers = [];
+    var marker;
+    var map;
+    var latlng;
+    var latlngStr;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'),
+            {
+                zoom: 6,
+                center: { lat: 41.85, lng: -87.65 }
+            });
+
+        google.maps.event.addListener(map,
+            'click',
+            function(event) {
+                addMarker(event.latLng, map);
+                $("#Latitude").val(event.latLng.lat());
+                $("#Longitude").val(event.latLng.lng());
+            });
+
+        function addMarker(location, map) {
+            // Add the marker at the clicked location, and add the next-available label
+            // from the array of alphabetical characters.
+            setMapOnAll(null);
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            markers.push(marker);
+        }
+
+        // <input id="foo">
+        function bindDomElemToObjProp(domElem) {
+            $(domElem).change(function () {
+                addMarker({
+                    lat: parseFloat($("#Latitude").val()),
+                        lng: parseFloat($("#Longitude").val())
+                    },
+                    map);
+            });
+        }
+
+
+        bindDomElemToObjProp($("#Latitude"));
+        bindDomElemToObjProp($("#Longitude"));
+
+        function setMapOnAll(map) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(map);
+                    markers = [];
+                }
+            }
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
+        type="text/javascript"></script>

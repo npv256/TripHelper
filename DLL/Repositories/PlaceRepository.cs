@@ -21,7 +21,7 @@ namespace DLL.Repositories
 
         public IEnumerable<Place> GetAll()
         {
-            return db.Places;
+            return db.Places.Join();
         }
 
         public Place Get(long? id)

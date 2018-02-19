@@ -24,7 +24,7 @@ namespace DLL.Entities
         {
         Tracks = new List<Track>();
         Comments = new List<CommentPlace>();
-            Pictures = new List<Picture>();
+        Pictures = new List<Picture>();
         }
     }
 }

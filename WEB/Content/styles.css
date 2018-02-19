@@ -26,6 +26,18 @@
         padding-left: 10px;
     }
 	
+	.ButtonPanel{
+	    position: absolute;
+		width : 340px;
+		height :36px;
+		padding : 1px;
+		top : 55px;
+		left : 120px;
+		 background: white;
+		border: 1px outset #8f7d75;
+	}
+	
+	
 	.DetailsPlace{
 	 position: absolute;
         top: 7%;
@@ -37,15 +49,25 @@
          border-color : black;
 	}
 	
-	.ghepa1{
-	 position: absolute;
-	 padding-left: 10px;
-	 width: 450px;
-        top: 70px;
-        left: 20px; 
-        bottom: 500px;
-        background: white;
+	#PlaceDetails{
+		position: absolute;
+		top : 0;
+		background : gray;
+		width : 200;
+		height : 200;
 	}
+	
+	#CreatePlacePanel{
+		position: absolute;
+	  padding-left: 10px;
+	 width: 450px;
+        top: 120px;
+        left: 10px; 
+        bottom: 500px;
+		background : #f7f7e2;
+		border: 1px outset #8f7d75;
+	}
+
 	.glyphicon { margin-right:5px; }
 .thumbnail
 {
