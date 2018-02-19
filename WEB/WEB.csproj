@@ -825,11 +825,12 @@
     <Content Include="Views\Place\IndexMap.cshtml" />
     <Content Include="Views\Place\Details.cshtml" />
     <Content Include="Views\Place\Create.cshtml" />
+    <Content Include="Views\Track\Index.cshtml" />
+    <Content Include="Views\Track\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\GetKml\" />
-    <Folder Include="Views\Track\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

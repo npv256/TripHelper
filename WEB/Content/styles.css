@@ -26,6 +26,36 @@
         padding-left: 10px;
     }
 	
+	#PlaceDetails{
+		position: absolute;
+		top : 0px;
+		left : 445px;
+		width : 20px;
+		height : 200px;
+		background: 
+	}
+	
+	#CreatePlacePanel{
+		position: absolute;
+	    padding-left: 10px;
+	    width: 450px;
+		height : 400px;        
+        left: 10px; 
+		top: 120px;
+		background : #f7f7e2;
+		border: 1px outset #8f7d75;
+	}
+	
+	#CreateTrackPanel{
+		position: absolute;
+	    padding-left: 10px;
+	    width: 500px;       
+        right : 10px;
+		top: 90px;
+		height : 800px;
+		background : #f7f7e2;
+		border: 1px outset #8f7d75;
+	}
 	.ButtonPanel{
 	    position: absolute;
 		width : 340px;
@@ -37,61 +67,32 @@
 		border: 1px outset #8f7d75;
 	}
 	
-	
-	.DetailsPlace{
-	 position: absolute;
-        top: 7%;
-        left: 2%;
-        right: 80%;
-        bottom: 50%;
-        background: gray;
-         border: 1px;
-         border-color : black;
+	.form-group-item-text{
+	width:10px;
+	height : 200px;
 	}
 	
-	#PlaceDetails{
-		position: absolute;
-		top : 0;
-		background : gray;
-		width : 200;
-		height : 200;
-	}
-	
-	#CreatePlacePanel{
-		position: absolute;
-	  padding-left: 10px;
-	 width: 450px;
-        top: 120px;
-        left: 10px; 
-        bottom: 500px;
-		background : #f7f7e2;
-		border: 1px outset #8f7d75;
-	}
-
-	.glyphicon { margin-right:5px; }
-.thumbnail
-{
-	
-    margin-bottom: 10px;
-    padding: 0px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 1px;
-    border-radius: 1px;
+	.thumbnail{
     border-color : black;
+	background : #f7f7e2;
 }
 
-.item{
+	.item{
 	 position: absolute;
 	 padding-left: 20px;
 	 width: 500px;
         top: 60px;
         left: 0px; 
         bottom: 600px;
-        background: white;
 	}
+	.group inner list-group-item-text
+{
+	width: 100px;
+	right: 200px;
+}
 
 
-.item.list-group-item
+	.item.list-group-item
 {
     float: none;
     width: 100%;
@@ -139,4 +140,121 @@
 .list-group-item-text
 {
     margin: 0 0 11px;
+}
+
+:after, :before, * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin opacity($level) {
+  filter: alpha(opacity=($level * 100));
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=({$level * 100}))";
+  -moz-opacity: $level;
+  -khtml-opacity: $level;
+  opacity: $level;
+}
+
+$font-size-medium: 12pt;
+$general-font-family: Verdana, Tahoma, sans-serif;
+$inner-container-font-family: Georgia, sans-serif;
+
+
+body {
+  font-size: $font-size-medium; 
+  font-family: $general-font-family;
+  line-height: 1.45;
+  background-color: #484848;
+}
+
+// Different size of the window 
+.modal-extra-large { width: 860px; }
+.modal-large { width: 600px; }
+.modal-medium { width: 400px;  }
+.modal-small { width: 250px; }
+
+.modal.modal-centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  bottom: auto; 
+  right: auto; 
+}
+
+.modal {
+  margin: 0 auto; 
+  display: block; 
+  overflow: hidden;
+  @include border-radius(5px);
+  background-color: #fff;
+  
+  &:hover &-show-hide {
+    @include opacity(1);
+  }
+  
+  &-show-hide {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    line-height: 1;
+    color: #fff;
+    font-size: 30px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.37);
+    cursor: pointer;
+    @include opacity(.7);
+  }
+  
+  &-img-container, 
+  &-img-container img,
+  &-container,
+  &-container h1,
+  &-container p,
+  &-container .container-inner {
+    width: 100%;
+    float: left;
+  }
+  
+  &-img-container {
+    height: 150px;
+    overflow: hidden;
+    
+    img { height: auto; }
+  }
+  
+  &-container {
+    padding: 15px;
+    
+    a {
+      text-decoration: none;
+      border-bottom: 3px solid rgba(82, 82, 82, 0.49);
+      
+      &:hover,
+      &:active, 
+      &:focus {
+        border-bottom: 3px solid rgba(82, 82, 82, 0.9);
+      }
+    }
+    
+    h1 {
+      font-size: 19pt;
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #525252;
+      font-family: $general-font-family;
+    }
+    
+    p, a {
+      font-size: $font-size-medium;
+      color: #3E3E3E;
+    }
+  }
+  
 }

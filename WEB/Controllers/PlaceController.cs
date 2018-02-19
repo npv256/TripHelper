@@ -70,17 +70,22 @@ namespace WEB.Controllers
                         var mapper = config.CreateMapper();
                         var placeModel = mapper.Map<PlaceViewModels, Place>(plVModel);
 
-                        if (fileData != null)
+                       if (fileData != null)
                         {
                             fileData = fileData.Where(f => f != null);
                             foreach (var file in fileData)
                             {
                                     string fileName = System.IO.Path.GetFileName(file.FileName);
                                     file.SaveAs(Server.MapPath("../Content/Images/" + fileName));
+                                Picture pic = new Picture
+                                {
+                                    Name = file.FileName,
+                                    Path = Server.MapPath("../Content/Images/" + fileName),
+                                };
+                                placeModel.Pictures.Add(pic);
                             }
-
-                            placeModel.Pictures=(fileData.Select(x => "../../Content/Images/" + System.IO.Path.GetFileName(x.FileName)).ToList());
-                        }
+                        
+                       }
                         else
                         {
                             ModelState.AddModelError("", "Не выбрано не одного фото");

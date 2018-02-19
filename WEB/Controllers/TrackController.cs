@@ -21,7 +21,8 @@ namespace WEB.Controllers
         // GET: Track
         public ActionResult Index()
         {
-            return View(_trackService.GetItemList());
+
+            return PartialView();
         }
 
         // GET: Track/Details/5
@@ -33,6 +34,7 @@ namespace WEB.Controllers
         // GET: Track/Create
         public ActionResult Create()
         {
+
             return View();
         }
 
