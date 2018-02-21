@@ -1,13 +1,4 @@
-﻿@model WEB.Models.ListPlaceUrlTrackModels
 <div id="map"></div>
-<div class="ButtonPanel">
-    <div class="btn-group btn-group-justified">
-        <a id="CreatePlace" class="btn btn-primary">Создать точку</a>
-        <a id="CreateTrack" class="btn btn-primary" data-toggle="modal"
-           data-target="#basicModal">Создать маршрут</a>
-    </div> 
-</div>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 
     var markers = [];
@@ -94,9 +85,6 @@
                     map);
             });
         }
-
-        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
-        $('#CreateTrackModel').load('@Url.Action("Create", "Track")');
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
 
@@ -107,7 +95,7 @@
         }
 
         $("#CreatePlacePanel").hide();
-        $("#CreateTrackModel").hide();
+        $("#CreateTrackPanel").hide();
     }
 </script>
 
@@ -131,11 +119,11 @@
         $('#CreateTrack').click(function(e) {
             e.preventDefault();
             if (StateTrackPanel) {
-              //  $("#CreateTrackPanel").hide();
+                $("#CreateTrackPanel").hide();
                 StateTrackPanel = false;
             } else {
                 StateTrackPanel = true;
-                $("#CreateTrackModel").show();
+                $("#CreateTrackPanel").show();
             }
         });
     });
@@ -145,5 +133,5 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
         type="text/javascript"></script>
 <div id="CreatePlacePanel"></div>
-<div id="CreateTrackModel"></div>
+<div id="CreateTrackPanel"></div>
 <div id="PlaceDetails"></div>

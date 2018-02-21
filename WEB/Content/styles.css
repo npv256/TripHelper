@@ -26,38 +26,19 @@
         padding-left: 10px;
     }
 	
-	.DetailsPlace{
-	 position: absolute;
-        top: 7%;
-        left: 2%;
-        right: 80%;
-        bottom: 50%;
-        background: gray;
-         border: 1px;
-         border-color : black;
+	#PlaceDetails{
+		position: absolute;
+		top : 0px;
+		left : 445px;
+		width : 20px;
+		height : 200px;
+		background: 
 	}
 	
-	.ghepa1{
-	 position: absolute;
-	 padding-left: 10px;
-	 width: 450px;
-        top: 70px;
-        left: 20px; 
-        bottom: 500px;
-        background: white;
-	}
-	.glyphicon { margin-right:5px; }
-.thumbnail
-{
-	
-    margin-bottom: 10px;
-    padding: 0px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 1px;
-    border-radius: 1px;
+	.thumbnail{
     border-color : black;
+	background : #f7f7e2;
 }
-
 .item{
 	 position: absolute;
 	 padding-left: 20px;
@@ -65,56 +46,34 @@
         top: 60px;
         left: 0px; 
         bottom: 600px;
-        background: white;
+	}
+	
+	#CreatePlacePanel{
+		position: absolute;
+	    padding-left: 10px;
+	    width: 450px;
+		height : 460px;        
+        left: 10px; 
+		top: 120px;
+		background : #f7f7e2;
+		border: 1px outset #8f7d75;
+	}
+	
+	#TrackDetails{
+		position: relative;
+		background : #f7f7e2;
+		border: 1px outset #8f7d75;
+	}	
+
+	.ButtonPanel{
+	    position: absolute;
+		width : 340px;
+		height :36px;
+		padding : 1px;
+		top : 55px;
+		left : 120px;
+		 background: white;
+		border: 1px outset #8f7d75;
 	}
 
 
-.item.list-group-item
-{
-    float: none;
-    width: 100%;
-    background-color: gray;
-    margin-bottom: 10px;
-     padding: 10px;
-}
-.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
-{
-    background: #428bca;
-}
-
-.item.list-group-item .list-group-image
-{
-    margin-right: 10px;
-}
-.item.list-group-item .thumbnail
-{
-    margin-bottom: 0px;
-}
-.item.list-group-item .caption
-{
-    top: 10;
-    padding: 9px 9px 0px 9px;
-}
-.item.list-group-item:nth-of-type(odd)
-{
-    background: #eeeeee;
-}
-
-.item.list-group-item:before, .item.list-group-item:after
-{
-    display: table;
-    content: " ";
-}
-
-.item.list-group-item img
-{
-    float: left;
-}
-.item.list-group-item:after
-{
-    clear: both;
-}
-.list-group-item-text
-{
-    margin: 0 0 11px;
-}

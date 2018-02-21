@@ -26,12 +26,19 @@ namespace BLL.Services
 
         public Track GetItem(long? id)
         {
-            return _db.Tracks.Get(id);
+            var someTrack = _db.Tracks.Get(id);
+            someTrack.Pictures = (from pic in _db.Pictures.GetAll()
+                where pic.TrackPicturesId == id
+                select pic).ToList();
+            var s = _db.Pictures.GetAll().ToList();
+            return someTrack;
         }
 
         public void Create(Track item)
         {
             _db.Tracks.Create(item);
+            foreach (var pic in item.Pictures)
+                _db.Pictures.Create(pic);
         }
 
         public void Delete(long? s)

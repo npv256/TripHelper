@@ -1,12 +1,5 @@
-﻿@model WEB.Models.ListPlaceUrlTrackModels
+﻿@model WEB.Models.TrackViewModels
 <div id="map"></div>
-<div class="ButtonPanel">
-    <div class="btn-group btn-group-justified">
-        <a id="CreatePlace" class="btn btn-primary">Создать точку</a>
-        <a id="CreateTrack" class="btn btn-primary" data-toggle="modal"
-           data-target="#basicModal">Создать маршрут</a>
-    </div> 
-</div>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 
@@ -23,13 +16,14 @@
                 center: { lat: 41.85, lng: -87.65 }
             });
         var ctaLayer = new google.maps.KmlLayer({
-            url: '@Model.UrlTrack',
+            url : "https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml",
+           // url: '@this.Url.Action("GetReport", "Manage", new { Name = Model.TrackKml }, this.Request.Url.Scheme);',
             map: map,
             suppressInfoWindows: true,
             clickable: false
         });
 
-        @foreach (var model1 in Model.PlaceList)
+        @foreach (var model1 in Model.Places)
         {
             <text>
                 var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
@@ -96,7 +90,8 @@
         }
 
         $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
-        $('#CreateTrackModel').load('@Url.Action("Create", "Track")');
+        $('#TrackDetails').load('@Url.Action("Details", "Track")/' + @Model.Id);
+
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
 
@@ -105,45 +100,12 @@
                 markers[i].setMap(map);
             }
         }
-
-        $("#CreatePlacePanel").hide();
-        $("#CreateTrackModel").hide();
     }
-</script>
-
-<script  type="text/javascript">
-    var StatePlacePanel = false;
-    var StateTrackPanel = false;
-    $(document).ready(function() {
-        $('#CreatePlace').click(function(e) {
-            e.preventDefault();
-            if (StatePlacePanel) {
-                $("#CreatePlacePanel").hide();
-                StatePlacePanel = false;
-            } else {
-                StatePlacePanel = true;
-                $("#CreatePlacePanel").show();
-            }
-        });
-    });
-
-    $(document).ready(function() {
-        $('#CreateTrack').click(function(e) {
-            e.preventDefault();
-            if (StateTrackPanel) {
-              //  $("#CreateTrackPanel").hide();
-                StateTrackPanel = false;
-            } else {
-                StateTrackPanel = true;
-                $("#CreateTrackModel").show();
-            }
-        });
-    });
-
 </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
         type="text/javascript"></script>
+<div id="TrackDetails"></div>
 <div id="CreatePlacePanel"></div>
-<div id="CreateTrackModel"></div>
 <div id="PlaceDetails"></div>
+

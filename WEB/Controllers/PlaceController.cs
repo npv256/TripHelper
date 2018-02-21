@@ -40,7 +40,7 @@ namespace WEB.Controllers
         }
 
         // GET: Place/Details/5
-        public ActionResult Details2(long id)
+        public ActionResult Details(long id)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Place, PlaceViewModels>());
             var mapper = config.CreateMapper();
@@ -52,7 +52,7 @@ namespace WEB.Controllers
         // GET: Place/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Place/Create
@@ -70,7 +70,7 @@ namespace WEB.Controllers
                         var mapper = config.CreateMapper();
                         var placeModel = mapper.Map<PlaceViewModels, Place>(plVModel);
 
-                        if (fileData != null)
+                       if (fileData != null)
                         {
                             fileData = fileData.Where(f => f != null);
                             foreach (var file in fileData)
@@ -93,7 +93,7 @@ namespace WEB.Controllers
 
                         _placeService.Create(placeModel);
                         _placeService.Save();
-                        return RedirectToAction("IndexMap");
+                        return RedirectToAction("Index","Home");
                     }
                     else
                     {
@@ -103,10 +103,10 @@ namespace WEB.Controllers
             }
             catch
             {
-                return View(plVModel);
+                return PartialView(plVModel);
             }
 
-            return View(plVModel);
+            return PartialView(plVModel);
         }
 
         // GET: Place/Edit/5

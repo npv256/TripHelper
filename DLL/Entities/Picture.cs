@@ -14,9 +14,10 @@ namespace DLL.Entities
         public Place PlacePictures { get; set; }
         public long? PlaceId { get; set; }
         public Track TrackPictures { get; set; }
-        public long? CommentPlacePicturesId { get; set; }
+        public long? TrackPicturesId { get; set; }
         public CommentPlace CommentPlacePictures { get; set; }
-        public long? CommentTrackPicturesId { get; set; }
+        public long? CommentPlacePicturesId { get; set; }
         public CommentTrack CommentTrackPictures { get; set; }
+        public long? CommentTrackPicturesId { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace WEB
         public static void RegisterTypes(IUnityContainer container)
         {
             var connectionString =
-                    "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\aspnet-WEB-20180201100745.mdf;";
+                    "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\admin_TripHelper_db.mdf;";
             container.RegisterType<TripContext>(new HierarchicalLifetimeManager(),
     new InjectionConstructor(connectionString));
             container.RegisterType<IUnitOfWork, EFUnitOfWork>();

@@ -1,130 +1,68 @@
 ﻿@model WEB.Models.PlaceViewModels
-<div id="map"></div>
-<div class="ghepa1">
-
-    @using (Html.BeginForm("Create", "Place", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<div id="CreatePlaсePanel">
+    @using (Html.BeginForm("Create", "Place", FormMethod.Post, new {enctype = "multipart/form-data"}))
     {
+
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <hr/>
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
             <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Rating, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Rating, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Rating, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Latitude, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Latitude, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Latitude, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Longitude, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Longitude, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Longitude, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @rows = 2, @cols = 20  } })
+                    @Html.TextAreaFor(model => model.Description, 5, 500, new { maxlength = 4000, @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-        <div class="form-group">
-            @Html.Label("Pictures", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">             
-                <input type="file" name="fileData" id="fileData" style="width: 100%;" />
-                <input type="file" name="fileData" id="fileData" style="width: 100%;" />
-        </div>
-        </div>
-
+            <div class="form-group">
+                @Html.Label("Pictures", htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    <input type="file" name="fileData" id="fileData" style="width: 100%;"/>
+                    <input type="file" name="fileData" id="fileData" style="width: 100%;"/>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-default"/>
                 </div>
             </div>
         </div>
     }
 </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-<script src="~/Scripts/gmaps.js"></script>
-<script>
-    var markers = [];
-    var marker;
-    var map;
-    var latlng;
-    var latlngStr;
 
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'),
-            {
-                zoom: 6,
-                center: { lat: 41.85, lng: -87.65 }
-            });
-
-        google.maps.event.addListener(map,
-            'click',
-            function(event) {
-                addMarker(event.latLng, map);
-                $("#Latitude").val(event.latLng.lat());
-                $("#Longitude").val(event.latLng.lng());
-            });
-
-        function addMarker(location, map) {
-            // Add the marker at the clicked location, and add the next-available label
-            // from the array of alphabetical characters.
-            setMapOnAll(null);
-            marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-            markers.push(marker);
-        }
-
-        // <input id="foo">
-        function bindDomElemToObjProp(domElem) {
-            $(domElem).change(function () {
-                addMarker({
-                    lat: parseFloat($("#Latitude").val()),
-                        lng: parseFloat($("#Longitude").val())
-                    },
-                    map);
-            });
-        }
-
-
-        bindDomElemToObjProp($("#Latitude"));
-        bindDomElemToObjProp($("#Longitude"));
-
-        function setMapOnAll(map) {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(map);
-                    markers = [];
-                }
-            }
-    }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
-        type="text/javascript"></script>
