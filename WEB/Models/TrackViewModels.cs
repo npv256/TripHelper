@@ -9,21 +9,22 @@ namespace WEB.Models
 {
     public class TrackViewModels
     {
+        [Key]
+        public long Id { get; set; }
         [Required]
-        [StringLength(30, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 30)]
+        [StringLength(30, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 10)]
         public string Name { get; set; }
-        public virtual List<Place> Places { get; set; }
+        public virtual List<PlaceViewModels> Places { get; set; }
         public string Description { get; set; }
         public virtual List<CommentTrack> Comments { get; set; }
         public float Rating { get; set; }
         public virtual User Author { get; set; }
         public virtual string TrackKml { get; set; }
-        public virtual int PartyUsers { get; set; }
         public List<Picture> Pictures { get; set; }
 
         public TrackViewModels()
         {
-            Places = new List<Place>();
+            Places = new List<PlaceViewModels>();
             Comments = new List<CommentTrack>();
             Pictures =new List<Picture>();
         }

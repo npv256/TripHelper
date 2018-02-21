@@ -56,10 +56,6 @@ namespace WEB.Controllers
             {
                 // получаем имя файла
                  fileName = System.IO.Path.GetFileName(upload.FileName);
-                if (fileName.Split('.').Last() != "kml")
-                {
-                    return Content("<script language='javascript' type='text/javascript'>alert('Выберите файл с форматом KML!');</script>");
-                }
                 upload.SaveAs(Server.MapPath("~/Content/Tracks/" + fileName));
             }
             return RedirectToAction("Index", new {Track = fileName} );
