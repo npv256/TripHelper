@@ -1,4 +1,5 @@
 ﻿@model WEB.Models.ListPlaceUrlTrackModels
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <div id="map"></div>
 <div class="ButtonPanel">
     <div class="btn-group btn-group-justified">
@@ -7,7 +8,6 @@
            data-target="#basicModal">Создать маршрут</a>
     </div> 
 </div>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 
     var markers = [];
@@ -15,6 +15,17 @@
     var map;
     var latlng;
     var latlngStr;
+    function pinSymbol(color) {
+        return {
+            path:
+                'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+            fillColor: color,
+            fillOpacity: 1,
+            strokeColor: '#000',
+            strokeWeight: 2,
+            scale: 1,
+        };
+    }
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'),
@@ -47,23 +58,11 @@
                     position: event.latLng,
                     map: map
                 });
-                $("#Latitude").val(event.latLng.lat());
-                $("#Longitude").val(event.latLng.lng());
                 //    $("#Latitude").val(event.latLng.lat());
                 // $("#Longitude").val(event.latLng.lng());
             });
 
-        function pinSymbol(color) {
-            return {
-                path:
-                    'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
-                fillColor: color,
-                fillOpacity: 1,
-                strokeColor: '#000',
-                strokeWeight: 2,
-                scale: 1,
-            };
-        }
+  
 
         function addMarker(location, map, id) {
             // Add the marker at the clicked location, and add the next-available label
@@ -84,21 +83,8 @@
             marker = null;
         }
 
-
-        function bindDomElemToObjProp(domElem) {
-            $(domElem).change(function() {
-                addMarker({
-                        lat: parseFloat($("#Latitude").val()),
-                        lng: parseFloat($("#Longitude").val())
-                    },
-                    map);
-            });
-        }
-
         $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
         $('#CreateTrackModel').load('@Url.Action("Create", "Track")');
-        bindDomElemToObjProp($("#Latitude"));
-        bindDomElemToObjProp($("#Longitude"));
 
         function setMapOnAll(map) {
             for (var i = 0; i < markers.length; i++) {

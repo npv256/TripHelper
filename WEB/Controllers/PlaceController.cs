@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,12 +16,14 @@ namespace WEB.Controllers
     public class PlaceController : Controller
     {
         private readonly IService<User> _userService;
+        private readonly IService<Track> _trackService;
         private readonly IService<Place> _placeService;
 
-        public PlaceController(IService<User> userService, IService<Place> placeService)
+        public PlaceController(IService<User> userService, IService<Place> placeService, IService<Track> trackService)
         {
             _userService = userService;
             _placeService = placeService;
+            _trackService = trackService;
         }
         public ActionResult IndexMap()
         {
@@ -39,29 +42,33 @@ namespace WEB.Controllers
             return View(placeList);
         }
 
-        // GET: Place/Details/5
-        public ActionResult Details(long id)
+        public ActionResult Details(string id)
         {
+            var somePlace = _placeService.GetItemList().FirstOrDefault(place => place.Name == id);
+            if (somePlace == null)
+                somePlace = _placeService.GetItem(Convert.ToInt64(id));
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Place, PlaceViewModels>());
             var mapper = config.CreateMapper();
-            var placeViewModel = mapper.Map<Place, PlaceViewModels>(_placeService.GetItem(id));
-            var s = _placeService.GetItem(id);
-            return  PartialView(placeViewModel);
+            var placeViewModel = mapper.Map<Place, PlaceViewModels>(somePlace);
+            return PartialView(placeViewModel);
         }
 
+
         // GET: Place/Create
-        public ActionResult Create()
+        public ActionResult Create(long? trackId)
         {
-            return PartialView();
+            PlaceViewModels plvModels = new PlaceViewModels();
+           if (trackId!=null) plvModels.Tracks.Add(_trackService.GetItem(trackId));
+            return PartialView(plvModels);
         }
 
         // POST: Place/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(PlaceViewModels plVModel, IEnumerable<HttpPostedFileBase> fileData)
-        {
+         {
             try
-            {
+            {             
                 if (ModelState.IsValid)
                 {
                     if (_placeService.GetItemList().FirstOrDefault(place => place.Name == plVModel.Name) == null)
@@ -69,31 +76,31 @@ namespace WEB.Controllers
                         var config = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModels, Place>());
                         var mapper = config.CreateMapper();
                         var placeModel = mapper.Map<PlaceViewModels, Place>(plVModel);
-
-                       if (fileData != null)
+                        if (fileData != null)
                         {
                             fileData = fileData.Where(f => f != null);
                             foreach (var file in fileData)
                             {
-                                    string fileName = System.IO.Path.GetFileName(file.FileName);
-                                    file.SaveAs(Server.MapPath("../Content/Images/" + fileName));
+                                string fileName = System.IO.Path.GetFileName(file.FileName);
+                                file.SaveAs(Server.MapPath("~/Content/Images/" + fileName));
                                 Picture pic = new Picture
                                 {
                                     Name = file.FileName,
-                                    Path = Server.MapPath("../Content/Images/" + fileName),
+                                    Path = Server.MapPath("~/Content/Images/" + fileName),
                                 };
                                 placeModel.Pictures.Add(pic);
                             }
-                        
-                       }
+
+                        }
                         else
                         {
                             ModelState.AddModelError("", "Не выбрано не одного фото");
+                            return PartialView(plVModel);
                         }
-
                         _placeService.Create(placeModel);
                         _placeService.Save();
-                        return RedirectToAction("Index","Home");
+                        //return PartialView();
+                        // return RedirectToAction("Index","Home");
                     }
                     else
                     {
@@ -129,7 +136,7 @@ namespace WEB.Controllers
                var placeModel = mapper.Map<PlaceViewModels, Place>(plVModels);
                 _placeService.Update(placeModel);
                 _placeService.Save();
-                return RedirectToAction("IndexMap");
+                return RedirectToAction("Index");
             }
             catch(Exception e)
             {
@@ -141,7 +148,7 @@ namespace WEB.Controllers
         {
             _placeService.Delete(id);
             _placeService.Save();
-            return RedirectToAction("IndexMap");
+            return RedirectToAction("Index");
         }
     }
 }

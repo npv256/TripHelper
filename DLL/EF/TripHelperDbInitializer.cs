@@ -12,6 +12,7 @@ namespace DLL.EF
     {
         protected override void Seed(TripContext db)
         {
+            db.Database.ExecuteSqlCommand("ALTER TABLE dbo.Pictures ADD CONSTRAINT Places_Pictures FOREIGN KEY (PlaceId) REFERENCES dbo.Places (Id) ON DELETE SET NULL");
             try
             {
                 User u1 = new User

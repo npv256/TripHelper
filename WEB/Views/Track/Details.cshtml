@@ -1,20 +1,40 @@
 ﻿@model WEB.Models.TrackViewModels
-    <div id="TrackDetails">
+<div id="TrackDetails">
+    <div id="TrackImage">
         <img class="group list-group-image" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt="" />
-        <div class="caption">
-            <h4 class="group inner list-group-item-heading">
-                @Model.Name
-            </h4>
-            <blockquote class="blockquote blockquote-reverse">
-                <p class="mb-0">@Model.Description</p>
-            </blockquote>
+    </div>
+    <div class="caption">
+        <h4>
+            @Model.Name
+        </h4>
 
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <p class="lead">
-                        @Model.Rating
-                    </p>
-                </div>
+        <p>
+            @Model.Description
+        </p>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <p class="lead">
+                    @Model.Rating
+                </p>
             </div>
         </div>
     </div>
+    <div class="modal-header">
+        <div class="col-xs-8">
+            <input class="form-control" id="place1" type="text" value="Добавить контрольную точку">
+        </div>
+        <a class="button cross"></a>
+    </div>
+</div>
+<script>
+    $('#sumbit').on('click', function (e) {
+        $("#CreatePlacePanel").show();
+        $('.modal-header')
+            .prepend($(
+                ' <div class="col-xs-8"> <input class="form-control" id="place1" type="text" value="Добавить контрольную точку">  </div> <a class="button cross"></a>'));
+    });
+    $('.cross').on('click', function (e) {
+        $("#CreatePlacePanel").hide();
+       
+    });
+</script>

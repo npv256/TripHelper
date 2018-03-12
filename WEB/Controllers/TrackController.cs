@@ -26,7 +26,7 @@ namespace WEB.Controllers
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
             var mapper = config.CreateMapper();
             var trackList = mapper.Map<List<Track>, List<TrackViewModels>>(_trackService.GetItemList().ToList());
-            return PartialView(trackList);
+            return View(trackList);
         }
 
         // GET: Track/Details/5
@@ -54,6 +54,7 @@ namespace WEB.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                 //   var kmlfile = fileData.Last();
                     if (_trackService.GetItemList().FirstOrDefault(track => track.Name == trackVM.Name) == null)
                     {
                         var config = new MapperConfiguration(cfg => cfg.CreateMap<TrackViewModels, Track>());

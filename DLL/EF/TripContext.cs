@@ -29,16 +29,20 @@ namespace DLL.EF
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasMany(c => c.SavedTracks)
+            modelBuilder.Entity<User>()
+                .HasMany(c => c.SavedTracks)
                 .WithMany(s => s.PartyUsers)
                 .Map(t => t.MapLeftKey("TrackId")
                     .MapRightKey("UserId")
                     .ToTable("UserSavedTracks"));
+
             modelBuilder.Entity<Track>().HasMany(c => c.Places)
                 .WithMany(s => s.Tracks)
                 .Map(t => t.MapLeftKey("PlaceId")
                     .MapRightKey("TrackId")
                     .ToTable("TrackPlaces"));
+
+            
         }
 
 

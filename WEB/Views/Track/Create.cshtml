@@ -22,35 +22,26 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
+                        <div class="form-group" style ="width: 100%">
                             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.TextAreaFor(model => model.Description, 5, 500, new { maxlength = 4000, @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
-                        </div>
+                            
+                        </div>           
 
                         <div class="form-group">
                             @Html.Label("Pictures", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                <input type="file" name="fileData" id="fileData" style="width: 100%;" />
-                                <input type="file" name="fileData" id="fileData" style="width: 100%;" />
-                                <input type="file" name="fileData" id="fileData" style="width: 100%;" />
-                                <input type="file" name="fileData" id="fileData" style="width: 100%;" />
+                                <input id="fileData" name="fileData" type="file" class="fileData" data-show-upload="false" data-show-caption="true" multiple>
                             </div>
                         </div>
+
                         <div class="form-group">
                             @Html.Label("GEOfile", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                <input type="file" name="upload" id="kmlfile" style="width: 100%;" />
+                                <input type="file" name="kmlfile" id="kmlfile" style="width: 100%;" />
                             </div>
                         </div>
                     </div>
@@ -61,4 +52,3 @@
         </div>
     </div>
 </div>
-

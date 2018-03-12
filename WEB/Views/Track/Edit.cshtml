@@ -89,7 +89,7 @@
             });
         }
 
-        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
+        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")/'+@Model.Id);
         $('#TrackDetails').load('@Url.Action("Details", "Track")/' + @Model.Id);
 
         bindDomElemToObjProp($("#Latitude"));

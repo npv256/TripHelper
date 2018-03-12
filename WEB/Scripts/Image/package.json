@@ -1,0 +1,28 @@
+{
+  "name": "components_jquery-plugin-uploader",
+  "version": "1.0.0",
+  "description": "A JQuery plugin for a file uploader",
+  "main": "js/jquery.uploader.js",
+  "scripts": {
+    "build": "npm run js && npm run scss",
+    "js": "cp js/jquery.imageuploader.js dist/jquery.imageuploader.js",
+    "scss": "node_modules/.bin/node-sass --include-path scss scss/main.scss dist/styles.imageuploader.css",
+    "scss:watch": "node_modules/.bin/watch 'npm run scss' scss",
+    "test": "node_modules/.bin/mocha tests/tests.js --reporter nyan",
+    "js:watch": "node_modules/.bin/watch 'npm run js' js",
+    "start": "browser-sync start --server"
+  },
+  "author": "Rob Copeland",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "jsdom": "^8.5.0",
+    "jsdomify": "^2.1.0",
+    "mocha": "^2.4.5",
+    "node-sass": "^3.7.0",
+    "should": "^8.3.1",
+    "sinon": "^1.17.4",
+    "susy": "^2.2.12",
+    "watch": "^0.18.0"
+  }
+}

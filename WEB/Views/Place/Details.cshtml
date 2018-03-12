@@ -1,20 +1,15 @@
 ﻿@model WEB.Models.PlaceViewModels
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <div class="item  col-xs-4 col-lg-4">
     <div class="thumbnail">
         <button class="close" type="button" data-dismiss="modal">x</button>
         <img class="group list-group-image" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt="" />
         <div class="caption">
-            <h4 class="group inner list-group-item-heading">
+            <h4>
                 @Model.Name
             </h4>
-            <p class="group inner list-group-item-text">
-                @Model.Latitude
-            </p>
-            <p class="group inner list-group-item-text">
-                @Model.Longitude
-            </p>
 
-            <p class="group inner list-group-item-text">
+            <p>
                 @Model.Description
             </p>
             <div class="row">
