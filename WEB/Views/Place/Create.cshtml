@@ -1,9 +1,5 @@
 ﻿@model WEB.Models.PlaceViewModels
 <div id="CreatePlaсePanel">
-    <script src="@Url.Content("~/Scripts/jquery.validate.js")"
-            type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"
-            type="text/javascript"></script>
     @*@using (Ajax.BeginForm("Create", "Place", new AjaxOptions { UpdateTargetId = "PlaceCreatePanel", HttpMethod = "Post" }, new { enctype = "multipart/form-data" }))*@
     @using (Html.BeginForm("Create", "Place", FormMethod.Post, new {enctype = "multipart/form-data"}))
     {
@@ -68,29 +64,15 @@
         };
     }
 
-    $('#sumbit').click(function() {
-        var id = $("#Name").val();
-        var location = marker.position;
-        //marker.setMap(null);
-        marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            icon: pinSymbol("#183"),
-            id: id
-        });
-        $('#Latitude').val(marker.position.lat());
-        $('#Longitude').val(marker.position.lng());
-        google.maps.event.addListener(marker, 'click', function () {
-            $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
-        });
-
-        markers.push(marker);
-        marker = null;
-    });
-</script>
-<script>
-    (function() {
-
+    $('#sumbit').click(function () {
+        if ($('#fileData').val()[0] == null) {
+            alert("You don't select files");
+            return false;
+        }
+        if ($('#Latitude').val() == "0" && $('#Longitude').val() == "0") {
+            alert("You didn't set marker");
+            return false;
+        }
         var bar = $('.progress-bar');
         var percent = $('.progress-bar');
         var status = $('#status');
@@ -112,10 +94,40 @@
                 bar.width(percentVal);
                 percent.html(percentVal);
             },
-            complete: function(xhr) {
+            complete: function (xhr) {
+                var id = $("#Name").val();
+                var location = marker.position;
+                //marker.setMap(null);
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    icon: pinSymbol("#183"),
+                    id: id
+                });
+                $('#Latitude').val(marker.position.lat());
+                $('#Longitude').val(marker.position.lng());
+                google.maps.event.addListener(marker, 'click', function () {
+                    $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
+                });
+
+                markers.push(marker);
+                marker = null;
                 status.html(xhr.responseText);
+                $('#Latitude').val(0);
+                $('#Longitude').val(0);
+                $('#Description').val("");
+                $('#Name').val("");
+                $('#fileData').val(null);
+
             }
         });
 
-    })();       
+    }); 
 </script>
+<script>
+
+</script>
+<script src="@Url.Content("~/Scripts/jquery.validate.js")"
+        type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"
+        type="text/javascript"></script>
