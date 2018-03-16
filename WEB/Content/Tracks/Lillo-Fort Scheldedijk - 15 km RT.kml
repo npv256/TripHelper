@@ -1,0 +1,299 @@
+<?xml version="1.0" standalone="yes"?>
+<kml xmlns="http://earth.google.com/kml/2.2 ">
+
+  <Document>
+
+   <Folder id="Waypoints">
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.287738, 51.303812,0</coordinates>
+         </Point>
+         <name>START</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.287738, 51.303812,0</coordinates>
+         </Point>
+         <name>1</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.287235, 51.306264,0</coordinates>
+         </Point>
+         <name>2</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288241, 51.306893,0</coordinates>
+         </Point>
+         <name>3</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288241, 51.306893,0</coordinates>
+         </Point>
+         <name>4</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288241, 51.306893,0</coordinates>
+         </Point>
+         <name>5</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.281901, 51.332737,0</coordinates>
+         </Point>
+         <name>6</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.281901, 51.332737,0</coordinates>
+         </Point>
+         <name>7</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.287939, 51.307459,0</coordinates>
+         </Point>
+         <name>8</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288542, 51.306767,0</coordinates>
+         </Point>
+         <name>9</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288090, 51.308276,0</coordinates>
+         </Point>
+         <name>10</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288694, 51.308276,0</coordinates>
+         </Point>
+         <name>11</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288694, 51.308276,0</coordinates>
+         </Point>
+         <name>12</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.291711, 51.306264,0</coordinates>
+         </Point>
+         <name>13</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.292918, 51.306201,0</coordinates>
+         </Point>
+         <name>14</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.292918, 51.306201,0</coordinates>
+         </Point>
+         <name>15</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.319373, 51.294002,0</coordinates>
+         </Point>
+         <name>16</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.330332, 51.283061,0</coordinates>
+         </Point>
+         <name>17</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.330332, 51.283061,0</coordinates>
+         </Point>
+         <name>18</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.318165, 51.294757,0</coordinates>
+         </Point>
+         <name>19</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.318165, 51.294757,0</coordinates>
+         </Point>
+         <name>20</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.318165, 51.294757,0</coordinates>
+         </Point>
+         <name>21</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.290905, 51.306776,0</coordinates>
+         </Point>
+         <name>22</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.290158, 51.306543,0</coordinates>
+         </Point>
+         <name>23</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.290158, 51.306543,0</coordinates>
+         </Point>
+         <name>24</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.292227, 51.305213,0</coordinates>
+         </Point>
+         <name>25</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.293893, 51.304836,0</coordinates>
+         </Point>
+         <name>26</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.293893, 51.304836,0</coordinates>
+         </Point>
+         <name>27</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.291681, 51.303093,0</coordinates>
+         </Point>
+         <name>28</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.291020, 51.303129,0</coordinates>
+         </Point>
+         <name>29</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.290962, 51.303578,0</coordinates>
+         </Point>
+         <name>30</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.290675, 51.303542,0</coordinates>
+         </Point>
+         <name>31</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.290761, 51.303686,0</coordinates>
+         </Point>
+         <name>32</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.289152, 51.303596,0</coordinates>
+         </Point>
+         <name>33</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288750, 51.303812,0</coordinates>
+         </Point>
+         <name>34</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.288520, 51.303722,0</coordinates>
+         </Point>
+         <name>35</name>
+      </Placemark>
+      <Placemark>
+         <Point>
+            <altitudeMode>clampToGround</altitudeMode>
+                <coordinates>004.287773, 51.303866,0</coordinates>
+         </Point>
+         <name>36</name>
+      </Placemark>
+      <name>Waypoints</name>
+      <visibility>1</visibility>
+   </Folder>
+   <Folder id="Tracks">
+      <Placemark>
+         <MultiGeometry>
+         <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+               <coordinates>
+                  004.287738,51.303812,0  004.287738,51.303812,0  004.287235,51.306264,0  004.288241,51.306893,0  004.288241,51.306893,0  004.288241,51.306893,0  004.281901,51.332737,0  004.281901,51.332737,0  004.287939,51.307459,0  004.288542,51.306767,0  004.288090,51.308276,0  004.288694,51.308276,0  004.288694,51.308276,0  004.291711,51.306264,0  004.292918,51.306201,0  004.292918,51.306201,0  004.319373,51.294002,0  004.330332,51.283061,0  004.330332,51.283061,0  004.318165,51.294757,0  004.318165,51.294757,0  004.318165,51.294757,0  004.290905,51.306776,0  004.290158,51.306543,0  004.290158,51.306543,0  004.292227,51.305213,0  004.293893,51.304836,0  004.293893,51.304836,0  004.291681,51.303093,0  004.291020,51.303129,0  004.290962,51.303578,0  004.290675,51.303542,0  004.290761,51.303686,0  004.289152,51.303596,0  004.288750,51.303812,0  004.288520,51.303722,0  004.287773,51.303866,0  
+               </coordinates>
+            <tessellate>1</tessellate>
+         </LineString>
+         </MultiGeometry>
+         <Snippet></Snippet>
+         <Style>
+            <LineStyle>
+               <color>FF0000E6</color>
+               <width>4</width>
+            </LineStyle>
+         </Style>
+         <description><![CDATA[&nbsp;]]></description>
+         <name><![CDATA[Lillo-Fort Scheldedijk - 15 km RT]]></name>
+         </Placemark>
+         <name>Tracks</name>
+         <open>0</open>
+         <visibility>1</visibility>
+   </Folder>
+
+   <name><![CDATA[GPS data]]></name>
+   <open>1</open>
+   <visibility>1</visibility>
+  </Document>
+</kml>
