@@ -17,7 +17,7 @@ namespace WEB.Models
         public string Name { get; set; }
         public  List<CommentPlace> Comments { get; set; }
         [Required]
-        [StringLength(500, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 30)]
+        [StringLength(500, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 50)]
         public string Description { get; set; }
         public double Rating { get; set; }
         public virtual User Author { get; set; }

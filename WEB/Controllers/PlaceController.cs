@@ -58,7 +58,9 @@ namespace WEB.Controllers
         public ActionResult Create(long? trackId)
         {
             PlaceViewModels plvModels = new PlaceViewModels();
-           if (trackId!=null) plvModels.Tracks.Add(_trackService.GetItem(trackId));
+            if (trackId != null) plvModels.Tracks.Add(_trackService.GetItem(trackId));
+            else
+                plvModels.Tracks = null;
             return PartialView(plvModels);
         }
 
@@ -113,7 +115,7 @@ namespace WEB.Controllers
                 return PartialView(plVModel);
             }
 
-            return PartialView(plVModel);
+            return PartialView();
         }
 
         // GET: Place/Edit/5
