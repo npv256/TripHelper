@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Search";
+}
+@model string
+
+<style>
+    .demo-card-wide > .mdl-card__title {
+        color: #fff;
+    }
+
+    .demo-card-wide > .mdl-card__menu {
+        color: #fff;
+    }
+</style>
+
+<div class="search-filters">
+    <div class="search-filters search-filters-form search-results main-text-style">
+        <div id="wrapper">
+            @using (Ajax.BeginForm("SearchPartial", "Track", new AjaxOptions {UpdateTargetId = "results"}))
+            {
+                <div class="search-filters-input">
+                    <input type="text" placeholder="Enter a location" name="name" style="width: 300px"/>
+                </div>
+                <div class="price-filter-bar">
+                    <select name="minCountPlace">
+                        <option value="0" selected="selected">Min count</option>
+                        <option value="5"> 5 </option>  
+                        <option value="10"> 10 </option>  
+                        <option value="15"> 15 </option>  
+                        <option value="20"> 20 </option>  
+                        <option value="25"> 25 </option>  
+                        <option value="30"> 30 </option>  
+                    </select>
+                    <p>to</p>
+                    <select name="maxCountPlace">
+                        <option value="999" selected="selected">Max count</option>
+                        <option value="10"> 10 </option>
+                        <option value="15"> 15 </option>
+                        <option value="20"> 20 </option>
+                        <option value="25"> 25 </option>
+                        <option value="30"> 30 </option>
+                        <option value="35"> 35 </option>
+                        <option value="40"> 40 </option>
+                        <option value="45"> 45 </option>
+                        <option value="30"> 30 </option>
+
+                    </select>
+                </div>
+
+                <div class="price-filter-bar">
+                    <select class="" name="minRating">
+                        <option value="0" selected="selected">Min rating</option>
+                        <option value="1">
+                            1 
+                        </option>
+                        <option value="2">
+                            2 
+                        </option>
+                        <option value="3">
+                            3 
+                        </option>
+                        <option value="4">
+                            4 
+                        </option>
+                        <option value="5">
+                            5 
+                        </option>
+                        <option value="6">
+                            6 
+                        </option>
+                        <option value="7">
+                            7 
+                        </option>
+                        <option value="8">
+                            8 
+                        </option>
+                        <option value="9">
+                            9 
+                        </option>
+                        <option value="10">
+                            10 
+                        </option>
+                    </select>
+                </div>
+
+                <div class="search-button-block">
+                    <button type="submit" class="search-button">Поиск</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="loading" style="display: none; color: Red; font-weight: bold;">
+    <p>Идет загрузка...</p>
+</div>
+
+<div id="results">
+    @Html.Action("SearchPartial","Track", new { name = Model })
+</div>
+
+

@@ -9,6 +9,6 @@ namespace DLL.Entities
     public class CommentTrack : Comment
     {
         public long TrackId { get; set; }
-        public Track TrackComment { get; set; }
+        public virtual Track TrackComment { get; set; }
     }
 }

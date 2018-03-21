@@ -34,7 +34,9 @@ namespace WEB.Controllers
             var s1 = _userService.GetItemList().First().Email;
             var s2 = _userService.GetItemList().Last();
             if (string.IsNullOrEmpty(Track)) 
-                Track = "https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml";
+                //Track = "https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml";
+            Track =
+                "https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Tracks/25817.gpx";
             else
                 Track = this.Url.Action("GetReport", "Manage", new { Name = Track }, this.Request.Url.Scheme);
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Place, PlaceViewModels>());

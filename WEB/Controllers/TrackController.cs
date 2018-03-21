@@ -20,8 +20,35 @@ namespace WEB.Controllers
             _userService = userService;
             _trackService = trackService;
         }
+
+        public ActionResult SearchPartial(string name="", string minCountPlace ="0", string maxCountPlace = "999", string minRating = "0")
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
+            var mapper = config.CreateMapper();
+            var selectedList = _trackService.GetItemList()
+                .Where(t => t.Rating >= int.Parse(minRating)
+                            && name != " " ? t.Name.ToLower().Contains(name.ToLower()) :t.Name.Length > 1 
+                            && t.Places.Count> Int32.Parse(minCountPlace)
+                            && t.Places.Count< Int32.Parse(maxCountPlace)
+                ).ToList();
+            var trackList = mapper.Map<List<Track>, List<TrackViewModels>>(selectedList);
+            return PartialView(trackList);
+        }
+
+        public ActionResult Search(string name = "")
+        {
+            return View((Object)name);
+        }
         // GET: Track
         public ActionResult Index()
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
+            var mapper = config.CreateMapper();
+            var trackList = mapper.Map<List<Track>, List<TrackViewModels>>(_trackService.GetItemList().ToList());
+            return View(trackList);
+        }
+
+        public ActionResult IndexList()
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
             var mapper = config.CreateMapper();
@@ -66,10 +93,6 @@ namespace WEB.Controllers
                             kmlfile.SaveAs(Server.MapPath("../Content/Tracks/" + fileName));
                             trackModel.TrackKml = fileName;
                         }
-                        else
-                        {
-                            ModelState.AddModelError("", "Выберите файл с GPS трэком");
-                        }
                         if (fileData != null)
                         {
                             fileData = fileData.Where(f => f != null);
@@ -107,7 +130,8 @@ namespace WEB.Controllers
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
             var mapper = config.CreateMapper();
-            var trackVM = mapper.Map<Track, TrackViewModels>(_trackService.GetItem(id));
+            var someTrack = _trackService.GetItem(id);
+            var trackVM = mapper.Map<Track, TrackViewModels>(someTrack);
             return View(trackVM);
         }
 
@@ -128,25 +152,11 @@ namespace WEB.Controllers
         }
 
         // GET: Track/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long? id)
         {
-            return View();
-        }
-
-        // POST: Track/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            _trackService.Delete(id);
+            _trackService.Save();
+            return RedirectToAction("Index", "Track");
         }
     }
 }

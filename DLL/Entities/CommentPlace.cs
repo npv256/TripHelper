@@ -9,6 +9,6 @@ namespace DLL.Entities
     public class CommentPlace : Comment
     {
         public long PlaceId { get; set; }
-        public Place PlaceComment { get; set; }
+        public virtual Place PlaceComment { get; set; }
     }
 }

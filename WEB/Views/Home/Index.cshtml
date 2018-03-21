@@ -8,6 +8,7 @@
            data-target="#basicModal">Создать маршрут</a>
     </div> 
 </div>
+<div id="map2"></div>
 <script>
 
     var markers = [];
@@ -15,6 +16,7 @@
     var map;
     var latlng;
     var latlngStr;
+    var distance;
     function pinSymbol(color) {
         return {
             path:
@@ -30,22 +32,25 @@
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'),
             {
-                zoom: 6,
+                zoom: 0,
                 center: { lat: 41.85, lng: -87.65 }
             });
         var ctaLayer = new google.maps.KmlLayer({
-            url: '@Model.UrlTrack',
+             url: '@Model.UrlTrack',
+            //url: 'https://www.gpslib.ru/tracks/download/7092.gpx',
             map: map,
             suppressInfoWindows: true,
             clickable: false
         });
 
+
         @foreach (var model1 in Model.PlaceList)
         {
             <text>
+                
                 var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
                 addMarker(markerlatLng, map, @model1.Id);
-        </text>
+            </text>
 
         }
 
@@ -58,10 +63,12 @@
                     position: event.latLng,
                     map: map
                 });
-                 $("#Latitude").val(event.latLng.lat());
-                 $("#Longitude").val(event.latLng.lng());
+                $("#Latitude").val(event.latLng.lat());
+                $("#Longitude").val(event.latLng.lng());
             });
 
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   
 
         function addMarker(location, map, id) {
@@ -117,7 +124,7 @@
         $('#CreateTrack').click(function(e) {
             e.preventDefault();
             if (StateTrackPanel) {
-              //  $("#CreateTrackPanel").hide();
+                //  $("#CreateTrackPanel").hide();
                 StateTrackPanel = false;
             } else {
                 StateTrackPanel = true;
@@ -128,6 +135,18 @@
 
 </script>
 
+<script>
+    $(function() {
+	
+        $('#PlaceDetails').draggable();
+	
+    });
+</script>
+
+
+<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/sunny/jquery-ui.css">
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
         type="text/javascript"></script>
 <div id="CreatePlacePanel"></div>

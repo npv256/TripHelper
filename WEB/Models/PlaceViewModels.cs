@@ -29,12 +29,12 @@ namespace WEB.Models
         public float Longitude { get; set; }
         public List<Picture> Pictures { get; set; }
         public  List<Track> Tracks { get; set; }
+        public long IdTrack { get; set; }
 
         public PlaceViewModels()
         {
             Comments = new List<CommentPlace>();
             Pictures = new List<Picture>();
-            Tracks = new List<Track>();
         }
     }
 }
