@@ -765,6 +765,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lightview.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -834,7 +835,11 @@
     <Content Include="Views\Track\Details.cshtml" />
     <Content Include="Views\Track\Create.cshtml" />
     <Content Include="Views\Track\Edit.cshtml" />
+    <Content Include="Views\Track\Index2.cshtml" />
+    <Content Include="Views\Track\IndexList.cshtml" />
     <Content Include="Views\Track\Index.cshtml" />
+    <Content Include="Views\Track\Search.cshtml" />
+    <Content Include="Views\Track\SearchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

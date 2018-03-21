@@ -1,6 +1,16 @@
 ﻿@model WEB.Models.TrackViewModels
 <div id="map"></div>
+<div class="row">
+    <div id="floating-panel">
+        <input onclick="clearMarkers();" type=button value="Hide Markers">
+        <input onclick="showMarkers();" type=button value="Show All Markers">
+        <input onclick="deleteMarkers();" type=button value="Delete Markers">
+        <input type="submit" id="submit" value="Сделать круто">
+    </div>
+    <div id="directions-panel"></div>
+</div>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="~/Scripts/gmaps.js"></script>
 <script>
 
     var markers = [];
@@ -8,6 +18,11 @@
     var map;
     var latlng;
     var latlngStr;
+    var waypts = [];
+    var labelIndex = 1;
+    var directionsDisplay;
+    var url = '@Model.TrackKml';
+    var directionsService;
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'),
@@ -15,13 +30,13 @@
                 zoom: 6,
                 center: { lat: 41.85, lng: -87.65 }
             });
-        var ctaLayer = new google.maps.KmlLayer({
-            url : "https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml",
-           // url: '@this.Url.Action("GetReport", "Manage", new { Name = Model.TrackKml }, this.Request.Url.Scheme);',
-            map: map,
-            suppressInfoWindows: true,
-            clickable: false
-        });
+
+        directionsService = new google.maps.DirectionsService;
+        directionsDisplay = new google.maps.DirectionsRenderer(
+            {
+                suppressMarkers: true
+            });
+        directionsDisplay.setMap(map);
 
         @foreach (var model1 in Model.Places)
         {
@@ -31,6 +46,21 @@
         </text>
 
         }
+
+        if (url == '') {
+            url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+            // url: '@this.Url.Action("GetReport", "Manage", new {Name = Model.TrackKml}, this.Request.Url.Scheme);',
+            }
+            else
+            {
+                var ctaLayer = new google.maps.KmlLayer({
+                    url: url,
+                    map: map,
+                    suppressInfoWindows: true,
+                    clickable: false
+                });
+            }
 
         google.maps.event.addListener(map,
             'click',
@@ -70,14 +100,21 @@
                 id: id
             });
 
-            google.maps.event.addListener(marker, 'click', function () {
-                $('#PlaceDetails').load('@Url.Action("Details", "Place")/' +id);
-            });
+            google.maps.event.addListener(marker,
+                'click',
+                function() {
+                    $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
+                });
 
             markers.push(marker);
             marker = null;
         }
 
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
 
         function bindDomElemToObjProp(domElem) {
             $(domElem).change(function() {
@@ -89,18 +126,54 @@
             });
         }
 
-        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")/?trackId='+@Model.Id);
+        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")/?IdTrack=' + @Model.Id);
         $('#TrackDetails').load('@Url.Action("Details", "Track")/' + @Model.Id);
 
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
+    }
 
-        function setMapOnAll(map) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        if (markers.length > 1) {
+            for (var i = 1; i < markers.length - 1; i++) {
+                waypts.push({
+                    location: markers[i].position,
+                    stopover: true
+                });
             }
+
+
+            directionsService.route({
+                    origin: markers[0].position,
+                    destination: markers[markers.length - 1].position,
+                    waypoints: waypts,
+                    optimizeWaypoints: false,
+                    travelMode: 'DRIVING'
+                },
+                function(response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                        var route = response.routes[0];
+                        var summaryPanel = document.getElementById('directions-panel');
+                        summaryPanel.innerHTML = '';
+                        // For each route, display summary information.
+
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            waypts = [];
+            directionsDisplay.setMap(map);
         }
     }
+</script>
+<script>
+    $(function() {
+
+        $('#PlaceDetails').draggable();
+     //   $('#TrackDetails').draggable();
+
+    });
 </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"

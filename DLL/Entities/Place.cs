@@ -18,11 +18,10 @@ namespace DLL.Entities
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public virtual List<Track> Tracks { get; set; }
-        public List<Picture> Pictures { get; set; }
+        public virtual List<Picture> Pictures { get; set; }
 
         public Place()
         {
-        Tracks = new List<Track>();
         Comments = new List<CommentPlace>();
         Pictures = new List<Picture>();
         }

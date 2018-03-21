@@ -14,7 +14,7 @@ namespace WEB.Models
         [Required]
         [StringLength(30, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 10)]
         public string Name { get; set; }
-        public virtual List<PlaceViewModels> Places { get; set; }
+        public virtual List<Place> Places { get; set; }
         public string Description { get; set; }
         public virtual List<CommentTrack> Comments { get; set; }
         public float Rating { get; set; }
@@ -24,7 +24,7 @@ namespace WEB.Models
 
         public TrackViewModels()
         {
-            Places = new List<PlaceViewModels>();
+            Places = new List<Place>();
             Comments = new List<CommentTrack>();
             Pictures =new List<Picture>();
         }

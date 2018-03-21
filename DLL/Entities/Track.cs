@@ -18,7 +18,7 @@ namespace DLL.Entities
         public virtual User Author { get; set; }
         public virtual string TrackKml { get; set; }
         public virtual List<User> PartyUsers { get; set; }
-        public List<Picture> Pictures { get; set; }
+        public virtual List<Picture> Pictures { get; set; }
 
         public Track()
         {

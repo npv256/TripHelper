@@ -14,6 +14,6 @@ namespace DLL.Entities
         public virtual User Author { get; set; }
         public virtual long? AuthorId { get; set; }
         public float Rating { get; set; }
-        public List<Picture> Pictures {get;set;}
+        public virtual List<Picture> Pictures {get;set;}
     }
 }

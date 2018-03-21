@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WEB.Models.TrackViewModels>
+
+<style>
+    .demo-card-wide.mdl-card {
+        width: 512px;
+    }
+
+    .demo-card-wide > .right {
+        color: #fff;
+        height: 176px;
+    }
+
+    .demo-card-wide > .mdl-card__menu {
+        color: #fff;
+    }
+</style>
+
+
+<div class="container">
+            @using (Ajax.BeginForm("SearchPartial", new AjaxOptions { UpdateTargetId = "results", LoadingElementId = "loading", LoadingElementDuration = 1000 }))
+            {
+
+
+#line default
+#line hidden
+
+#line 3 "E:\Git\TripHelper\WEB\Views\Track\Index.cshtml"
+
+
+
+#line default
+#line hidden
+
+#line 4 "E:\Git\TripHelper\WEB\Views\Track\Index.cshtml"
+
+
+
+
+#line default
+#line hidden
+
+#line 5 "E:\Git\TripHelper\WEB\Views\Track\Index.cshtml"
+
+
+
+
+#line default
+#line hidden
+
+#line 6 "E:\Git\TripHelper\WEB\Views\Track\Index.cshtml"
+
+            }
+
+#line default
+#line hidden
+
+#line 7 "E:\Git\TripHelper\WEB\Views\Track\Index.cshtml"
+            foreach (var i in @Model)
+            {
+            <div class="row">
+
+                    <div class="col-md-12">
+                        <div id="TrackImage">
+                            <div class="title">
+                                <img class="TrackImage" src="~/Content/Images/@i.Pictures[0].Name" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h2>
+                            @i.Name
+                        </h2>
+                        <h3>
+                            @i.Description
+                        </h3>
+                        <p>
+                            @i.Rating
+                        </p>
+                    </div>
+                </div>                                       __o = i.Id;
+
+
+#line default
+#line hidden
+
+#line 13 "E:\Git\TripHelper\WEB\Views\Track\Index.cshtml"
+
+            }
+</div>
+@*<div class="mdl-card__supporting-text">
+        This spacious and bright Jr.4/ convertible 2 bedroom, is on a high floor with open city views terrace in a luxurious, full service, doorman building. The alcove den easily converts into a 2nd bedroom or an office. The airy layout features an oversized living room and bedroom, marble bath. Enjoy four extra large closets with hardwood doors and floors throughout.420 is meticulously maintained, with a 24hr. doorman, concierge and live in resident manager. Private garage is available to residents at a discounted cost, central laundry facility and the option of adding private washer/dryer to the unit. Conveniently located near the 2nd Ave. subway, and 68th Street subway. cross town buses and FDR drive. Near the finest hospitals and schools. Walk to great restaurants, shopping, fitness centers, parks and cultural institutions. Pets are allowed. Pied-e-terres, co-purchasing and guarantors are also permitted.
+    </div>*@

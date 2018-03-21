@@ -55,12 +55,13 @@ namespace WEB.Controllers
 
 
         // GET: Place/Create
-        public ActionResult Create(long? trackId)
+        public ActionResult Create(long? IdTrack)
         {
             PlaceViewModels plvModels = new PlaceViewModels();
-            if (trackId != null) plvModels.Tracks.Add(_trackService.GetItem(trackId));
+            if (IdTrack != null && IdTrack is long)
+                plvModels.IdTrack = (long)IdTrack;
             else
-                plvModels.Tracks = null;
+                plvModels.IdTrack = 0;
             return PartialView(plvModels);
         }
 
@@ -78,6 +79,8 @@ namespace WEB.Controllers
                         var config = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModels, Place>());
                         var mapper = config.CreateMapper();
                         var placeModel = mapper.Map<PlaceViewModels, Place>(plVModel);
+                        if (plVModel.IdTrack != 0)
+                            placeModel.Tracks.Add(_trackService.GetItem(plVModel.IdTrack));
                         if (fileData != null)
                         {
                             fileData = fileData.Where(f => f != null);

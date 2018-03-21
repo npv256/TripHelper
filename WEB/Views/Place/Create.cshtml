@@ -7,18 +7,18 @@
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <hr/>
             @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+            <div class="form-group">              
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", placeholder = "Название точки" } })
+
+                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger "})
                 </div>
             </div>
             
-            @Html.HiddenFor(model => model.Tracks, htmlAttributes: new {@class = "control-label col-md-2"})
-            @Html.ValidationMessageFor(model => model.Tracks)
+            @Html.HiddenFor(model => model.Tracks)
+            
+            @Html.HiddenFor(model => model.IdTrack)
 
             @Html.HiddenFor(model => model.Latitude, htmlAttributes: new {@class = "control-label col-md-2"})
             @Html.ValidationMessageFor(model => model.Latitude)
@@ -28,27 +28,38 @@
             @Html.ValidationMessageFor(model => model.Longitude, "", new {@class = "text-danger"})
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Description, 5, 500, new {maxlength = 4000, @class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.Description, 5, 500, new {maxlength = 4000, @class = "form-control", placeholder = "Описание точки" })
+
+                    @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.Label("Pictures", htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
                     <input id="fileData" name="fileData" type="file" class="fileData" data-show-upload="false" data-show-caption="true" multiple>
                 </div>
+            </div>*@
+            
+            <div class="ButtonUpload">
+                <div class="file-upload" data-text="Выберите файл">
+                    <input type="file"
+                           onchange="$('#upload-file-info').html(this.files[0].name)" name="fileData" id="fileData" class="fileData"> 
+                </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" id="sumbit"/>
+            <span class='label label-info' id="upload-file-info"></span>
+
+            <div class="ButtonCreate">
+                <div class="form-group">
+                    <div class="container-fluid">
+                        <input type="submit" value="Создать" class="btn btn-block btn-primary" id="sumbit"/>
+                    </div>
                 </div>
             </div>
         </div>
-    }
+            }
 </div>
 
 <script>
@@ -73,6 +84,7 @@
             alert("You didn't set marker");
             return false;
         }
+
         var bar = $('.progress-bar');
         var percent = $('.progress-bar');
         var status = $('#status');
@@ -112,6 +124,7 @@
 
                 markers.push(marker);
                 marker = null;
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
                 status.html(xhr.responseText);
                 $('#Latitude').val(0);
                 $('#Longitude').val(0);
@@ -122,11 +135,9 @@
             }
         });
 
-    }); 
+    });
 </script>
-<script>
 
-</script>
 <script src="@Url.Content("~/Scripts/jquery.validate.js")"
         type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"

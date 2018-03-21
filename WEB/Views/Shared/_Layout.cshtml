@@ -7,10 +7,11 @@
     <title>@ViewBag.Title – TripHelper</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Styles.css")
-    @Scripts.Render("~/bundles/modernizr")
+
+
 
 </head>
-<body>
+<body style="background: white">
     <div class="navbar navbar-inverse navbar-fixed-top">
         
             <div class="navbar-header">
@@ -24,12 +25,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Построить маршрут", "ConstructTrack", "Home")</li>
+                    <li>@Html.ActionLink("Поиск", "Search", "Track")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         
     </div>
-    <div class="container body-content">
+    <div class="body-content">
         @RenderBody()
         <hr />
         <footer>
@@ -38,7 +40,13 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/Scripts/jquery.formstyler.min.js")
+@Styles.Render("~/Content/jquery.formstyler.css")
+@Styles.Render("~/Content/material.css")
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 
     @RenderSection("scripts", required: false)
