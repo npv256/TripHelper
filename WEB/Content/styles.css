@@ -33,16 +33,15 @@ background:white;
 	
 	#PlaceDetails{
 		position: absolute;
-		top : 0px;
-		left : 445px;
+		top : 3%;
+		right: 22%;
 		width : 20px;
-		height : 200px;
-		background: 
+		height : 400px;
 	}
 	
 	.thumbnail{
     border-color : black;
-	background : #f7f7e2;
+	background : #white;
 }
 .item{
 	 position: absolute;
@@ -58,8 +57,8 @@ background:white;
 		width : 320px;
 		left : 15px;
 		top: 120px;
-		background : #f7f7e2;
-		border: 1px outset #8f7d75;
+		background : white;
+		box-shadow: 1px 1px 1px grey;
 	}
 	
 	#TrackDetails{

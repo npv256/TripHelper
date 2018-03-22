@@ -1,14 +1,5 @@
 ﻿@model WEB.Models.TrackViewModels
 <div id="map"></div>
-<div class="row">
-    <div id="floating-panel">
-        <input onclick="clearMarkers();" type=button value="Hide Markers">
-        <input onclick="showMarkers();" type=button value="Show All Markers">
-        <input onclick="deleteMarkers();" type=button value="Delete Markers">
-        <input type="submit" id="submit" value="Сделать круто">
-    </div>
-    <div id="directions-panel"></div>
-</div>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="~/Scripts/gmaps.js"></script>
 <script>
@@ -48,12 +39,13 @@
         }
 
         if (url == '') {
-            url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
+          //  url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
             calculateAndDisplayRoute(directionsService, directionsDisplay);
             // url: '@this.Url.Action("GetReport", "Manage", new {Name = Model.TrackKml}, this.Request.Url.Scheme);',
             }
             else
-            {
+        {
+            url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
                 var ctaLayer = new google.maps.KmlLayer({
                     url: url,
                     map: map,

@@ -36,7 +36,7 @@
                 center: { lat: 41.85, lng: -87.65 }
             });
         var ctaLayer = new google.maps.KmlLayer({
-             url: '@Model.UrlTrack',
+            url: 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml',
             //url: 'https://www.gpslib.ru/tracks/download/7092.gpx',
             map: map,
             suppressInfoWindows: true,
@@ -47,10 +47,10 @@
         @foreach (var model1 in Model.PlaceList)
         {
             <text>
-                
-                var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
-                addMarker(markerlatLng, map, @model1.Id);
-            </text>
+
+        var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
+        addMarker(markerlatLng, map, @model1.Id);
+        </text>
 
         }
 
@@ -69,7 +69,7 @@
 
         var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-  
+
 
         function addMarker(location, map, id) {
             // Add the marker at the clicked location, and add the next-available label

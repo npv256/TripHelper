@@ -109,7 +109,7 @@
             complete: function (xhr) {
                 var id = $("#Name").val();
                 var location = marker.position;
-                //marker.setMap(null);
+                marker.setMap(null);
                 marker = new google.maps.Marker({
                     position: location,
                     map: map,
