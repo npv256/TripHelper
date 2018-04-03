@@ -14,6 +14,7 @@
     var directionsDisplay;
     var url = '@Model.TrackKml';
     var directionsService;
+    var selectMarker;
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'),
@@ -88,15 +89,26 @@
             marker = new google.maps.Marker({
                 position: location,
                 map: map,
-                icon: pinSymbol("#183"),
+                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
                 id: id
             });
 
-            google.maps.event.addListener(marker,
-                'click',
-                function() {
-                    $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
-                });
+            marker.addListener('click', function() {
+                if(selectMarker!=null)
+                {
+                    selectMarker.setAnimation(null);
+                    selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+                }
+                selectMarker = markers.find(x => x.id === id);
+                map.setCenter(location);
+                selectMarker.setAnimation(google.maps.Animation.BOUNCE);
+                selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                $('#PlaceDetails').hide(100);
+                $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
+                $('#PlaceDetails').show(300);
+                if (marker != null)
+                    marker.setMap(null);
+            });
 
             markers.push(marker);
             marker = null;
@@ -119,7 +131,8 @@
         }
 
         $('#CreatePlacePanel').load('@Url.Action("Create", "Place")/?IdTrack=' + @Model.Id);
-        $('#TrackDetails').load('@Url.Action("Details", "Track")/' + @Model.Id);
+        $('#TrackEdit').load('@Url.Action("Details", "Track")/' + @Model.Id);
+        $('#PlaceDetails').hide();
 
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
@@ -159,18 +172,11 @@
         }
     }
 </script>
-<script>
-    $(function() {
-
-        $('#PlaceDetails').draggable();
-     //   $('#TrackDetails').draggable();
-
-    });
-</script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
         type="text/javascript"></script>
-<div id="TrackDetails"></div>
+
+<div id="TrackEdit"></div>
 <div id="CreatePlacePanel"></div>
 <div id="PlaceDetails"></div>
 

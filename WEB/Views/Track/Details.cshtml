@@ -1,22 +1,23 @@
 ﻿@model WEB.Models.TrackViewModels
+<link href="~/Content/bootstrap-rating.css" rel="stylesheet">
 <div id="TrackDetails">
     <div id="TrackImage">
         <img class="group list-group-image" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt="" />
     </div>
     <div class="caption">
-        <h4>
-            @Model.Name
-        </h4>
+        <h3>"Это маршрут"</h3>
+        <div class="TrackName">
+            <h4>
+                @Model.Name
+            </h4>
+        </div>
 
         <p>
             @Model.Description
         </p>
-        <div class="row">
-            <div class="col-xs-12 col-md-6">
-                <p class="lead">
-                    @Model.Rating
-                </p>
-            </div>
+        <input type="hidden" class="rating" disabled="disabled"/>
+        <div class="TrackRating">
+            <input type="hidden" class="rating"/>
         </div>
     </div>
     <div class="modal-header">
@@ -37,4 +38,11 @@
         $("#CreatePlacePanel").hide();
        
     });
+</script>
+<script>
+    $('#TrackDetails').click(function() {
+        $('#PlaceDetails').hide(300);
+        selectMarker.setAnimation(null);
+        selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+    })
 </script>

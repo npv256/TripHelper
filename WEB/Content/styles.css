@@ -32,41 +32,46 @@ background:white;
     }
 	
 	#PlaceDetails{
-		position: absolute;
-		top : 3%;
-		right: 22%;
-		width : 20px;
-		height : 400px;
+		position: fixed;
+		width : 410px;
+			height : 90%;
+			left : 2%;
+			top: 9%;
+		border-color : black;
+		background : white;
+		box-shadow: 1px 1px 10px grey;
+		border: 0.1px outset grey;
 	}
 	
-	.thumbnail{
-    border-color : black;
-	background : #white;
-}
-.item{
-	 position: absolute;
-	 padding-left: 20px;
-	 width: 500px;
-        top: 60px;
-        left: 0px; 
-        bottom: 600px;
+	#PlaceDetailsContent
+	{
+		position: relative;
+		padding: 1%; 2%;
 	}
+	
+	.PlaceImage{
+		width: 400px;
+		height: 200px;
+		position: relative;
+	}
+
 	
 	#CreatePlacePanel{
 		position: fixed;
 		width : 320px;
-		left : 15px;
-		top: 120px;
+		right : 15px;
+		top: 100px;
 		background : white;
-		box-shadow: 1px 1px 1px grey;
+		box-shadow: 2px 2px 2px grey;
 	}
 	
 	#TrackDetails{
 		position: absolute;
-		background : #f7f7e2;
-		width: 510px;
-		top : 29px;
-		right : 5px;
+		background : white;
+		width: 410px;
+		top : 9%;
+		height : 90%;
+		left : 7px;
 		padding-left: 1px;
 		border: 1px outset #8f7d75;
 	}	
@@ -74,6 +79,16 @@ background:white;
 		#TrackImage img {
     width: 100%;
 }
+
+	.TrackName{
+	position:relative;
+	padding: 1% 5%;
+	}
+	
+	.TrackRating{
+	position:relative;
+	padding: 3% 3% % 3%;
+	}
 
 	.ButtonPanel{
 	    position: fixed;

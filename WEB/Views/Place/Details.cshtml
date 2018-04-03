@@ -1,10 +1,11 @@
 ﻿@model WEB.Models.PlaceViewModels
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<div class="item  col-xs-4 col-lg-4">
-    <div class="thumbnail">
+<div id="PlaceDetails">
+    <div id="PlaceDetailsContent">
         <button class="close" type="button" data-dismiss="modal">x</button>
-        <img class="group list-group-image" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt="" />
+        <img class="PlaceImage" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt=""/>
+
         <div class="caption">
+            <h3>"Это место"</h3>
             <h4>
                 @Model.Name
             </h4>
@@ -22,6 +23,10 @@
         </div>
     </div>
 </div>
+
 <script> $('.close').on('click', function (e) {
-    $('.thumbnail').hide();
-}); </script>
+     $('#PlaceDetails').hide(300);
+     selectMarker.setAnimation(null);
+        selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+    });
+</script>

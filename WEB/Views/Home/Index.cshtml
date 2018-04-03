@@ -1,5 +1,4 @@
 ﻿@model WEB.Models.ListPlaceUrlTrackModels
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <div id="map"></div>
 <div class="ButtonPanel">
     <div class="btn-group btn-group-justified">
@@ -17,6 +16,9 @@
     var latlng;
     var latlngStr;
     var distance;
+    var contentString;
+    var selectMarker;
+
     function pinSymbol(color) {
         return {
             path:
@@ -32,25 +34,23 @@
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'),
             {
-                zoom: 0,
+                zoom: 3,
                 center: { lat: 41.85, lng: -87.65 }
             });
         var ctaLayer = new google.maps.KmlLayer({
-            url: 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml',
+            //url: 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml',
             //url: 'https://www.gpslib.ru/tracks/download/7092.gpx',
             map: map,
             suppressInfoWindows: true,
             clickable: false
         });
 
-
         @foreach (var model1 in Model.PlaceList)
         {
             <text>
-
-        var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
-        addMarker(markerlatLng, map, @model1.Id);
-        </text>
+                var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
+                 addMarkerWithTimeout(markerlatLng, map, @model1.Id);
+            </text>
 
         }
 
@@ -61,29 +61,59 @@
                     marker.setMap(null);
                 marker = new google.maps.Marker({
                     position: event.latLng,
-                    map: map
-                });
+                    map: map,
+            });
                 $("#Latitude").val(event.latLng.lat());
                 $("#Longitude").val(event.latLng.lng());
-            });
+            });     
 
-        var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        var markerCluster = new MarkerClusterer(map,
+            markers,
+            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 
 
-        function addMarker(location, map, id) {
+        //function addInfoWindow(marker, id) {
+
+        //    var infoWindow = new google.maps.InfoWindow({
+        //        content: ""
+        //});
+
+        //    google.maps.event.addListener(marker, 'click', function () {
+        //        infoWindow.open(map, marker);
+        //    });
+        //}
+
+        function addMarkerWithTimeout(location, map, id) {
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
-            //   setMapOnAll(null);
+            //   setMapOnAll(null
+
+            if (marker != null)
+                marker.setMap(null);
             marker = new google.maps.Marker({
                 position: location,
                 map: map,
-                icon: pinSymbol("#183"),
-                id: id
+                animation: google.maps.Animation.DROP,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                id: id,
             });
+            //addInfoWindow(marker, id);
 
-            google.maps.event.addListener(marker, 'click', function () {
-                $('#PlaceDetails').load('@Url.Action("Details", "Place")/' +id);
+            marker.addListener('click', function() {
+                if(selectMarker!=null)
+                {
+                    selectMarker.setAnimation(null);
+                    selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+                }
+                $('#PlaceDetails').hide(100);
+                $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
+                $('#PlaceDetails').show(300);
+                selectMarker = markers.find(x => x.id === id);
+                selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                selectMarker.setAnimation(google.maps.Animation.BOUNCE);
+                map.setCenter(location);
+                if (marker != null)
+                    marker.setMap(null);
             });
 
             markers.push(marker);
@@ -93,8 +123,8 @@
         $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
         $('#CreateTrackModel').load('@Url.Action("Create", "Track")');
 
-        function setMapOnAll(map) {
-            for (var i = 0; i < markers.length; i++) {
+        function setMapOnAll(map,icon) {
+                for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(map);
             }
         }
@@ -111,11 +141,11 @@
         $('#CreatePlace').click(function(e) {
             e.preventDefault();
             if (StatePlacePanel) {
-                $("#CreatePlacePanel").hide();
+                $("#CreatePlacePanel").hide(300);
                 StatePlacePanel = false;
             } else {
                 StatePlacePanel = true;
-                $("#CreatePlacePanel").show();
+                $("#CreatePlacePanel").show(300);
             }
         });
     });
@@ -128,7 +158,7 @@
                 StateTrackPanel = false;
             } else {
                 StateTrackPanel = true;
-                $("#CreateTrackModel").show();
+                $("#CreateTrackModel").show(300);
             }
         });
     });
@@ -137,7 +167,7 @@
 
 <script>
     $(function() {
-	
+        $('#PlaceDetails').hide();
         $('#PlaceDetails').draggable();
 	
     });
