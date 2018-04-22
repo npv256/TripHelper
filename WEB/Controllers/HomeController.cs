@@ -30,9 +30,6 @@ namespace WEB.Controllers
 
         public ActionResult Index(string Track)
         {
-            var s = _userService.GetItemList().ToList();
-            var s1 = _userService.GetItemList().First().Email;
-            var s2 = _userService.GetItemList().Last();
             if (string.IsNullOrEmpty(Track)) 
                 //Track = "https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml";
             Track =
@@ -53,12 +50,17 @@ namespace WEB.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase upload)
         {
-            string fileName="Baigura";
+            var fileName = "Baigura";
             if (upload != null)
             {
-                // получаем имя файла
-                 fileName = System.IO.Path.GetFileName(upload.FileName);
-                upload.SaveAs(Server.MapPath("~/Content/Tracks/" + fileName));
+               // upload.SaveAs(Server.MapPath("~/Content/Tracks/" + fileName));
+                string savelocation = Server.MapPath("~/Content/Tracks/");
+                string fileExtention = System.IO.Path.GetExtension(upload.FileName);
+                //creating filename to avoid file name conflicts.
+                 fileName = Guid.NewGuid().ToString();
+                //saving file in savedImage folder.
+                string savePath = savelocation + fileName + fileExtention;
+                upload.SaveAs(savePath);
             }
             return RedirectToAction("Index", new {Track = fileName} );
         }

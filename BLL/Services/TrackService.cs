@@ -26,12 +26,22 @@ namespace BLL.Services
 
         public Track GetItem(long? id)
         {
+           var s1 = _db.Tracks.GetAll().LastOrDefault();
             var someTrack = _db.Tracks.Get(id);
-            someTrack.Pictures = (from pic in _db.Pictures.GetAll()
-                where pic.TrackPicturesId == id
-                select pic).ToList();
-            var s = _db.Pictures.GetAll().ToList();
-            return someTrack;
+            if (someTrack != null)
+            {
+                if (someTrack.Pictures.Count != 0)
+                {
+                    someTrack.Pictures = (from pic in _db.Pictures.GetAll()
+                        where pic.TrackPicturesId == id
+                        select pic).ToList();
+                    var s = _db.Pictures.GetAll().ToList();
+                }
+
+                return someTrack;
+            }
+            else
+                return null;
         }
 
         public void Create(Track item)

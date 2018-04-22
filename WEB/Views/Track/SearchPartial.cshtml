@@ -27,12 +27,23 @@
                 <div class="card-main-info">
                     <div class="mdl-card__supporting-text">
                         <h4> @i.Name</h4>
-                        <p> @i.Description</p>
+                        <p>@i.Description</p>
                     </div>
+
                     <div class="price-block ">
-                        <p>
-                            @i.Rating
-                        </p>
+                        @for (var j = 1; j < 6; j++)
+                        {
+                            if (i.Rating >= j)
+                            {
+                                <span class="fa fa-star checked"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                        }
+                    </div>
+                    <div class="SearchTrackText">
                     </div>
                 </div>
 

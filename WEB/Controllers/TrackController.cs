@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using AutoMapper;
 using BLL.Interfaces;
 using DLL.Entities;
+using Microsoft.Ajax.Utilities;
+using Moq;
+using WEB.App_Start;
 using WEB.Models;
 
 namespace WEB.Controllers
@@ -14,31 +17,35 @@ namespace WEB.Controllers
     {
         private readonly IService<User> _userService;
         private readonly IService<Track> _trackService;
+        private readonly IService<Place> _placeService;
 
-        public TrackController(IService<User> userService, IService<Track> trackService)
+        public TrackController(IService<User> userService, IService<Track> trackService, IService<Place> placeService)
         {
             _userService = userService;
             _trackService = trackService;
+            _placeService = placeService;
         }
 
-        public ActionResult SearchPartial(string name="", string minCountPlace ="0", string maxCountPlace = "999", string minRating = "0")
+        public ActionResult SearchPartial(string name = "", string minCountPlace = "0", string maxCountPlace = "999",
+            string minRating = "0")
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
             var mapper = config.CreateMapper();
-            var selectedList = _trackService.GetItemList()
-                .Where(t => t.Rating >= int.Parse(minRating)
-                            && name != " " ? t.Name.ToLower().Contains(name.ToLower()) :t.Name.Length > 1 
-                            && t.Places.Count> Int32.Parse(minCountPlace)
-                            && t.Places.Count< Int32.Parse(maxCountPlace)
-                ).ToList();
+            var selectedList = _trackService.GetItemList().ToList();
+            selectedList = selectedList.Where(Track => Track.Name.Contains(name)).ToList();
+            selectedList = selectedList.Where(Track => Track.Rating >= float.Parse(minRating)).ToList();
+            selectedList = selectedList.Where(track =>
+                    track.Places.Count >= int.Parse(minCountPlace) && track.Places.Count <= int.Parse(maxCountPlace))
+                .ToList();
             var trackList = mapper.Map<List<Track>, List<TrackViewModels>>(selectedList);
             return PartialView(trackList);
         }
 
         public ActionResult Search(string name = "")
         {
-            return View((Object)name);
+            return View((Object) name);
         }
+
         // GET: Track
         public ActionResult Index()
         {
@@ -68,54 +75,92 @@ namespace WEB.Controllers
         // GET: Track/Create
         public ActionResult Create()
         {
-
-           return PartialView();
+            if (!User.Identity.IsAuthenticated)
+                return Json(3, JsonRequestBehavior.AllowGet);
+            return PartialView();
         }
 
         // POST: Track/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TrackViewModels trackVM, IEnumerable<HttpPostedFileBase> fileData, HttpPostedFileBase kmlfile)
+        public ActionResult Create(TrackViewModels trackVM, IEnumerable<HttpPostedFileBase> images, HttpPostedFileBase geoFile)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                 //   var kmlfile = fileData.Last();
+                    //   var kmlfile = fileData.Last();
                     if (_trackService.GetItemList().FirstOrDefault(track => track.Name == trackVM.Name) == null)
                     {
                         var config = new MapperConfiguration(cfg => cfg.CreateMap<TrackViewModels, Track>());
                         var mapper = config.CreateMapper();
                         var trackModel = mapper.Map<TrackViewModels, Track>(trackVM);
-                        if (kmlfile != null)
+                        if (geoFile != null)
                         {
-                            string fileName = System.IO.Path.GetFileName(kmlfile.FileName);
-                            kmlfile.SaveAs(Server.MapPath("../Content/Tracks/" + fileName));
-                            trackModel.TrackKml = fileName;
-                        }
-                        if (fileData != null)
-                        {
-                            fileData = fileData.Where(f => f != null);
-                            foreach (var file in fileData)
+                            System.IO.FileInfo file = new System.IO.FileInfo(geoFile.FileName);
+                            if (file.Extension == ".gpx" || file.Extension == ".kml")
                             {
-                                string fileName = System.IO.Path.GetFileName(file.FileName);
-                                file.SaveAs(Server.MapPath("../Content/Images/" + fileName));
-                                Picture pic = new Picture
-                                 {
-                                      Name = file.FileName,
-                                      Path = Server.MapPath("../Content/Images/" + fileName),
-                                 };
-                                 trackModel.Pictures.Add(pic);
+                                string fname = file.Name.Remove((file.Name.Length - file.Extension.Length));
+                                fname = fname + System.DateTime.Now.ToString("_ddMMyyhhmmssms") + file.Extension;
+                                geoFile.SaveAs(Server.MapPath("../Content/Tracks/" + fname));
+                                trackModel.TrackKml = fname;
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("WrongFormatGeo",
+                                    "Разрешенные только следующие форматы гео-файлов : gpx, kml");
+                                return PartialView(trackVM);
+                            }
+
+                        }
+
+                        if (images != null)
+                        {
+                            images = images.Where(f => f != null);
+                            foreach (var someFile in images)
+                            {
+                                System.IO.FileInfo file = new System.IO.FileInfo(someFile.FileName);
+                                if (file.Extension == ".jpeg" || file.Extension == ".jpg" || file.Extension == ".png" ||
+                                    file.Extension == ".gif" || file.Extension == ".bmp")
+                                {
+                                    string fname = file.Name.Remove((file.Name.Length - file.Extension.Length));
+                                    fname = fname + System.DateTime.Now.ToString("_ddMMyyhhmmssms") + file.Extension;
+                                    someFile.SaveAs(Server.MapPath("../Content/Images/" + fname));
+                                    Picture pic = new Picture
+                                    {
+                                        Name = fname,
+                                        Path = Server.MapPath("../Content/Images/" + fname),
+                                    };
+                                    trackModel.Pictures.Add(pic);
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("WrongFormatImages",
+                                        "Разрешенные только следующие форматы изображений : jpeg, jpg, png, gif, bmp");
+                                    return PartialView(trackVM);
+                                }
                             }
                         }
                         else
                         {
-                            ModelState.AddModelError("", "Не выбрано не одного фото");
+                            ModelState.AddModelError("NoImage", "Не выбрано не одного фото");
+                            return PartialView(trackVM);
                         }
+
                         _trackService.Create(trackModel);
                         _trackService.Save();
-                        return RedirectToAction("Edit", "Track",  new { id = trackModel.Id });
+                        return RedirectToAction("Edit", "Track", new {id = trackModel.Id});
                     }
+                    else
+                    {
+                        ModelState.AddModelError("DoubleTrack", "Маршрут с таким названием уже существует");
+                        return PartialView(trackVM);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("ModelEror", "");
+                    return PartialView(trackVM);
                 }
             }
             catch
@@ -132,7 +177,34 @@ namespace WEB.Controllers
             var mapper = config.CreateMapper();
             var someTrack = _trackService.GetItem(id);
             var trackVM = mapper.Map<Track, TrackViewModels>(someTrack);
+            trackVM.AllPlaces = _placeService.GetItemList().ToList();
+            trackVM.AllPlaces = trackVM.AllPlaces.Except(trackVM.Places).ToList();
             return View(trackVM);
+        }
+
+        public ActionResult CheckPlaceInTrack(long idPlace, long idTrack)
+        {
+            if(!User.Identity.IsAuthenticated)
+                return Json(3, JsonRequestBehavior.AllowGet);
+            if (_trackService.GetItemList().FirstOrDefault(track => track.Id == idTrack) != null)
+            {
+                if (_trackService.GetItem(idTrack).Places.FirstOrDefault(place => place.Id == idPlace) != null)
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(0, JsonRequestBehavior.AllowGet);
+            }
+            return Json(1, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddPlaceInTrack(long idPlace, long idTrack)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Json(3, JsonRequestBehavior.AllowGet);
+            var track = _trackService.GetItem(idTrack);
+            track.Places.Add(_placeService.GetItem(idPlace));
+            _trackService.Update(track);
+            _trackService.Save();
+             return Json(1, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Track/Edit/5

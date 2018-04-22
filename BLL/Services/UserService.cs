@@ -36,8 +36,10 @@ namespace BLL.Services
         }
 
         public void Create(User item)
-        {
-            _db.Users.Create(item);
+        {   
+            var user = item;
+            user.Role = "user";
+            _db.Users.Create(user);
         }
 
         public void Delete(long? s)

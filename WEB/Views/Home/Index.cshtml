@@ -7,9 +7,26 @@
            data-target="#basicModal">Создать маршрут</a>
     </div> 
 </div>
+<div class="CheckUserIdentity"></div>
 <div id="map2"></div>
 <script>
-
+    $('.CheckUserIdentity').hide();
+    $('.ButtonPanel').hide();
+    $('.CheckUserIdentity').load(
+        '@Url.Action("Create", "Place")',
+        function(e) {
+            if ($('.CheckUserIdentity').html() != 3)
+            {
+                $('.ButtonPanel').show();
+            }
+            else {
+                $('.CheckUserIdentity').html("");
+            }
+        });
+</script>
+<script>
+    var StatePlacePanel = false;
+    var StateTrackPanel = false;
     var markers = [];
     var marker;
     var map;
@@ -35,8 +52,10 @@
         map = new google.maps.Map(document.getElementById('map'),
             {
                 zoom: 3,
-                center: { lat: 41.85, lng: -87.65 }
+                center: { lat: 41.85, lng: -87.65 },
+                draggableCursor: 'default'
             });
+        map.cursor = "";
         var ctaLayer = new google.maps.KmlLayer({
             //url: 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml',
             //url: 'https://www.gpslib.ru/tracks/download/7092.gpx',
@@ -49,7 +68,7 @@
         {
             <text>
                 var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
-                 addMarkerWithTimeout(markerlatLng, map, @model1.Id);
+                addMarkerWithTimeout(markerlatLng, map, @model1.Id);
             </text>
 
         }
@@ -62,10 +81,10 @@
                 marker = new google.maps.Marker({
                     position: event.latLng,
                     map: map,
-            });
+                });
                 $("#Latitude").val(event.latLng.lat());
                 $("#Longitude").val(event.latLng.lng());
-            });     
+            });
 
         var markerCluster = new MarkerClusterer(map,
             markers,
@@ -96,18 +115,19 @@
                 animation: google.maps.Animation.DROP,
                 icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
                 id: id,
+                color: "blue"
             });
             //addInfoWindow(marker, id);
-
+            $('#PlaceDetailsEmpty').hide();
             marker.addListener('click', function() {
                 if(selectMarker!=null)
                 {
                     selectMarker.setAnimation(null);
                     selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
                 }
-                $('#PlaceDetails').hide(100);
-                $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
-                $('#PlaceDetails').show(300);
+                $('#PlaceDetailsEmpty').hide();
+                $('#PlaceDetailsEmpty').load('@Url.Action("Details", "Place")/' + id);
+                // $('#PlaceDetailsEmpty').show(300);
                 selectMarker = markers.find(x => x.id === id);
                 selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                 selectMarker.setAnimation(google.maps.Animation.BOUNCE);
@@ -120,32 +140,34 @@
             marker = null;
         }
 
-        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")');
         $('#CreateTrackModel').load('@Url.Action("Create", "Track")');
 
         function setMapOnAll(map,icon) {
-                for (var i = 0; i < markers.length; i++) {
+            for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(map);
             }
         }
 
-        $("#CreatePlacePanel").hide();
+        $("#PlaceModel").hide();
+        //   $("#EditPlaсePanel").hide();
         $("#CreateTrackModel").hide();
     }
 </script>
 
 <script  type="text/javascript">
-    var StatePlacePanel = false;
-    var StateTrackPanel = false;
     $(document).ready(function() {
         $('#CreatePlace').click(function(e) {
             e.preventDefault();
             if (StatePlacePanel) {
-                $("#CreatePlacePanel").hide(300);
+                $("#PlaceModel").hide(300);
                 StatePlacePanel = false;
             } else {
                 StatePlacePanel = true;
-                $("#CreatePlacePanel").show(300);
+                $('#PlaceModel').empty();
+                $('#PlaceModel').load('@Url.Action("Create", "Place")');
+                $("#PlaceModel").show();
+                $('#Latitude').val(marker.getPosition().lat());
+                $('#Longitude').val(marker.getPosition().lng());
             }
         });
     });
@@ -167,18 +189,17 @@
 
 <script>
     $(function() {
-        $('#PlaceDetails').hide();
-        $('#PlaceDetails').draggable();
-	
+        $('#PlaceDetails').hide();	
     });
 </script>
 
 
-<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/sunny/jquery-ui.css">
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
         type="text/javascript"></script>
-<div id="CreatePlacePanel"></div>
+<div id="PlaceModel"></div>
 <div id="CreateTrackModel"></div>
-<div id="PlaceDetails"></div>
+<div id="PlaceDetailsEmpty"></div>
+<div id="EditPlaсePanel"></div>
+<div id="CreateCommentPlaceEmpty"></div>

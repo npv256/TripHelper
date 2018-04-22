@@ -19,19 +19,22 @@ namespace DLL.EF
                 {
                     Id = 1,
                     Email = "1",
-                    Password = "1" 
+                    Password = "1",
+                    Role = "admin"
                 };
                 User u2 = new User
                 {
                     Id = 2,
                     Email = "2",
-                    Password = "2"
+                    Password = "2",
+                    Role = "user"
                 };
                 User u3 = new User
                 {
                     Id = 3,
                     Email = "3",
-                    Password = "3"
+                    Password = "3",
+                    Role = "user"
                 };
                 db.Users.Add(u1);
                 db.Users.Add(u2);
@@ -40,8 +43,8 @@ namespace DLL.EF
                 Picture pic1 = new Picture
                 {
                     id = 1,
-                    Name = "7oXmpMxVc_w.jpg",
-                    Path = "7oXmpMxVc_w.jpg",
+                    Name = "1.png",
+                    Path = "1.png",
                 };
                 db.Pictures.Add(pic1);
                 Place p1 = new Place
@@ -53,7 +56,7 @@ namespace DLL.EF
                     Latitude = 1,
                     Longitude = 1,
                     Rating = 1,
-                    Pictures = new List<Picture>(),
+                    Pictures = new List<Picture>() {pic1},
                 };
                 p1.Pictures.Add(pic1);
                 db.Places.Add(p1);
@@ -66,6 +69,7 @@ namespace DLL.EF
                     Author = u1,
                     TrackKml = "1",
                     Places =new List<Place>() {p1},
+                    Pictures =new List<Picture>() { pic1}
                 };
                 db.Tracks.Add(t1);
                 CommentTrack ct1 = new CommentTrack

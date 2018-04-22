@@ -1,32 +1,181 @@
 ﻿@model WEB.Models.PlaceViewModels
 <div id="PlaceDetails">
     <div id="PlaceDetailsContent">
-        <button class="close" type="button" data-dismiss="modal">x</button>
-        <img class="PlaceImage" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt=""/>
-
-        <div class="caption">
-            <h3>"Это место"</h3>
-            <h4>
-                @Model.Name
-            </h4>
-
-            <p>
-                @Model.Description
-            </p>
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <p class="lead">
-                        @Model.Rating
-                    </p>
-                </div>
-            </div>
+        <button class="close" id="ClosePlaceDetails" type="button" data-dismiss="modal">x</button>
+        <div class="PlaceImage">
+            <img class="group list-group-image" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt="" />
         </div>
     </div>
-</div>
+    <div class="caption">       
+        <h4>
+            @Model.Name
+        </h4>
+            
+        <select id="PlaceRating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option data-html="better"value="3">3</option>
+            <option data-html="good" value="4">4</option>
+            <option data-html="best" value="5">5</option>
+        </select>
 
-<script> $('.close').on('click', function (e) {
-     $('#PlaceDetails').hide(300);
-     selectMarker.setAnimation(null);
-        selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+            
+        <p>
+            @Model.Description
+        </p>
+           
+    </div>
+    <div class="Comments">
+
+    </div>
+    @*<button type="button" class="btn" id="PlaceEditButton">Edit</button>*@
+    <div id="StartComment">
+        <h5> Вы посещали это место? <button type="button" class="btn btn-success " data-toggle="modal"
+                                            data-target="#basicModalCommentPlace" id="OpenCreateComment">Да</button> <button type="button" class="btn btn-default" id="CloseCreateComment">Нет</button> </h5>
+    </div>
+    <div class="AddPlaceToTrack">
+    <button type="button" class="btn btn-success col-md-12 " id ="AddPlaceInTrack">Добавить в маршрут</button>
+</div>
+</div>
+<div id="CheckExistComment"></div>
+<div id="CheckPlaceInTrack"></div>
+<script>
+    var href = window.location.href;
+    var value = href.substring(href.lastIndexOf('/') + 1);
+    $('.AddPlaceToTrack').hide();
+    $('#StartComment').hide();
+    $('#CreateCommentPlaceEmpty').empty();
+    $('#CreateCommentPlaceEmpty').load('@Url.Action("Create", "Comment")/?id=' + @Model.Id + '&typeComment=' + 'Place',function(e) {
+        $('#CheckExistComment').load('@Url.Action("CheckCommentExist", "Comment")/?id=' + @Model.Id + '&typeComment=' + 'Place',function(e) {
+                if ($('#CheckExistComment').html() == 1)
+                    $('#StartComment').empty();
+                else {
+                    $('#StartComment').show();
+                }
+                $('.Comments').empty();
+                $('.Comments')
+                    .load(
+                        '@Url.Action("GetComments", "Comment")/?id=' +
+                        @Model.Id +
+                        '&typeComment=' +
+                        'Place',
+                        function(e) {
+                            if ($('.Comments').html() == "0") {
+                                $('.Comments').empty();
+                            }
+                            if (value.isNumeric)
+                                $('#CheckPlaceInTrack').load(
+                                    '@Url.Action("CheckPlaceInTrack", "Track")/?idPlace=' + @Model.Id + '&idTrack=' + value,
+                                    function(e) {
+                                        if ($('#CheckPlaceInTrack').html() == 3);
+                                        //window.location.replace('@Url.Action("Login", "Account")');
+                                        if ($('#CheckPlaceInTrack').html() == 1);
+                                        if ($('#CheckPlaceInTrack').html() == 0)
+                                            $('.AddPlaceToTrack').show();
+                                    });
+
+                        });
+                $('#PlaceDetailsEmpty').show(300);
+            }
+        );
     });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#CheckExistComment').hide();
+        $('#PlaceRating').barrating({
+            theme: 'fontawesome-stars-o',
+            initialRating: '@Model.Rating',
+            readonly: true,
+        });
+    });
+</script>
+<script>
+    $('.close').on('click', function (e) {
+        $('#PlaceDetails').hide(300);
+        if(selectMarker!=null)
+        {
+            selectMarker.setAnimation(null);
+            if(selectMarker.color == "blue")
+                selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+            else
+                selectMarker.setIcon('http://maps.google.com/mapfiles/ms/micons/yellow.png');
+        }
+    });
+</script>
+<script>
+    $('#PlaceEditButton').on('click', function(e) {
+        $('#PlaceModel').empty();
+        $('#PlaceModel').load('@Url.Action("Edit", "Place")/' + @Model.Id);
+        $('#PlaceModel').show(300);
+    });
+</script>
+<script>
+    var count = 1;
+    $('#OpenCreateComment').on('click',
+        function(e) {
+            if ($('#CheckExistComment').html() == 3) {
+                window.location.replace('@Url.Action("Login", "Account")');
+            }
+            if( $('#CheckExistComment').html() == 0)
+                $('#CreateCommentPlaceEmpty').show(300);
+        });
+</script>
+<script>
+    $('#CloseCreateComment').on('click',
+        function(e) {
+            $('#StartComment').html("");
+            $('#StartComment').append('<h5> Спасибо, что делаете наш сервис лучше! </h5>');
+        });
+</script>
+<script>
+    var href = window.location.href;
+    var value = href.substring(href.lastIndexOf('/') + 1);
+    $('#AddPlaceInTrack').on('click',
+        function(e) {
+            $('#AddPlaceInTrack').hide();
+            $('#CheckPlaceInTrack').empty();
+            $('#CheckPlaceInTrack').load(
+                '@Url.Action("AddPlaceInTrack", "Track")/?idPlace=' + @Model.Id + '&idTrack=' + value,
+                function(e) {
+                    var idThisPlace = selectMarker.id;
+                    if ($('#CheckPlaceInTrack').html() == 1) {
+                        var oldMarker = markers.find(x => x.id === idThisPlace);
+                        var index = markers.indexOf(oldMarker);
+                        var location = selectMarker.position;
+                        marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                            id: idThisPlace,
+                            color: "blue"
+                        });
+                        marker.addListener('click',
+                            function() {
+                                if (selectMarker != null) {
+                                    selectMarker.setAnimation(null);
+                                    selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+                                }
+                                selectMarker = markers.find(x => x.id === idThisPlace);
+                                selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                                selectMarker.setAnimation(google.maps.Animation.BOUNCE);
+                                $('#PlaceDetailsEmpty').hide();
+                                $('#PlaceDetailsEmpty').load('@Url.Action("Details", "Place")/?id=' + idThisPlace);
+                        map.setCenter(location);
+                        if (marker != null)
+                            marker.setMap(null);
+                            });
+                        oldMarker.setMap(null);
+                        markers.splice(index, 1, marker);
+                        selectMarker.setMap(null);
+
+                    $('#list-places').append(
+                        $('<a>').attr('id', idThisPlace).attr('class', 'list-group-item').append($('<img>').attr('id', selectMarker.idThisPlace)
+                            .attr('src', "http://maps.google.com/mapfiles/ms/icons/blue-dot.png")).append('@Model.Name')
+                    );
+                        marker = null;
+                        $('#PlaceDetailsEmpty').hide();
+                        }
+                });
+        });
 </script>

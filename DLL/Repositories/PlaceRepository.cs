@@ -36,7 +36,7 @@ namespace DLL.Repositories
 
         public void Update(Place item)
         {
-            db.Entry(item).State = EntityState.Modified;
+           // db.Entry(item).State = EntityState.Modified;
         }
 
         public IEnumerable<Place> Find(Func<Place, Boolean> predicate)

@@ -3,7 +3,8 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="~/Scripts/gmaps.js"></script>
 <script>
-
+  
+    var StatePlacePanel = false;
     var markers = [];
     var marker;
     var map;
@@ -20,7 +21,8 @@
         map = new google.maps.Map(document.getElementById('map'),
             {
                 zoom: 6,
-                center: { lat: 41.85, lng: -87.65 }
+                center: { lat: 41.85, lng: -87.65 },
+                draggableCursor: 'default'
             });
 
         directionsService = new google.maps.DirectionsService;
@@ -34,26 +36,42 @@
         {
             <text>
                 var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
-                addMarker(markerlatLng, map, @model1.Id);
-        </text>
+        addMarker(markerlatLng, map, @model1.Id, "blue");
+            </text>
+
+        }
+        @foreach (var model1 in Model.AllPlaces)
+        {
+            <text>
+        var markerlatLng = new google.maps.LatLng(@(model1.Latitude), @(model1.Longitude));
+        addMarker(markerlatLng, map, @model1.Id, "green");
+            </text>
 
         }
 
-        if (url == '') {
-          //  url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
-            calculateAndDisplayRoute(directionsService, directionsDisplay);
-            // url: '@this.Url.Action("GetReport", "Manage", new {Name = Model.TrackKml}, this.Request.Url.Scheme);',
-            }
-            else
+        if (url === '') {
+            //  url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
+            //calculateAndDisplayRoute(directionsService, directionsDisplay);
+            // url: '@Url.Action("Details", "Place");',
+            url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
+            var ctaLayer = new google.maps.KmlLayer({
+                url: url,
+                map: map,
+                suppressInfoWindows: true,
+                clickable: false
+            });        
+        }
+        else
         {
             url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
-                var ctaLayer = new google.maps.KmlLayer({
-                    url: url,
-                    map: map,
-                    suppressInfoWindows: true,
-                    clickable: false
-                });
-            }
+            //  url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Tracks/' + '@Model.TrackKml';
+            var ctaLayer = new google.maps.KmlLayer({
+                url: url,
+                map: map,
+                suppressInfoWindows: true,
+                clickable: false
+            });
+        }
 
         google.maps.event.addListener(map,
             'click',
@@ -78,34 +96,41 @@
                 fillOpacity: 1,
                 strokeColor: '#000',
                 strokeWeight: 2,
-                scale: 1,
+                scale: 1
             };
         }
 
-        function addMarker(location, map, id) {
+        function addMarker(location, map, id, color) {
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
             //   setMapOnAll(null);
+            var colorMarker = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+            if(color != "blue")
+                colorMarker = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
             marker = new google.maps.Marker({
                 position: location,
                 map: map,
-                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                id: id
+                icon: colorMarker,
+                id: id, 
+                color: color
             });
 
             marker.addListener('click', function() {
                 if(selectMarker!=null)
                 {
                     selectMarker.setAnimation(null);
-                    selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+                    if(selectMarker.color == "blue")
+                        selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+                    else
+                        selectMarker.setIcon('http://maps.google.com/mapfiles/ms/micons/yellow.png');
                 }
+                $('#PlaceDetailsEmpty').hide();
+                $('#PlaceDetailsEmpty').load('@Url.Action("Details", "Place")/' + id);
+              //  $('#PlaceDetailsEmpty').show(300);
                 selectMarker = markers.find(x => x.id === id);
-                map.setCenter(location);
-                selectMarker.setAnimation(google.maps.Animation.BOUNCE);
                 selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-                $('#PlaceDetails').hide(100);
-                $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
-                $('#PlaceDetails').show(300);
+                selectMarker.setAnimation(google.maps.Animation.BOUNCE);
+                map.setCenter(location);
                 if (marker != null)
                     marker.setMap(null);
             });
@@ -130,53 +155,60 @@
             });
         }
 
-        $('#CreatePlacePanel').load('@Url.Action("Create", "Place")/?IdTrack=' + @Model.Id);
-        $('#TrackEdit').load('@Url.Action("Details", "Track")/' + @Model.Id);
-        $('#PlaceDetails').hide();
+        $('#TrackEdit').load('@Url.Action("Details", "Track")/' + @Model.Id);    
+        $("#PlaceModel").hide();
 
         bindDomElemToObjProp($("#Latitude"));
         bindDomElemToObjProp($("#Longitude"));
+        $('#PlaceDetailsEmpty').hide();
+
+        var markerCluster = new MarkerClusterer(map,
+            markers,
+            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
     }
 
-    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        if (markers.length > 1) {
-            for (var i = 1; i < markers.length - 1; i++) {
-                waypts.push({
-                    location: markers[i].position,
-                    stopover: true
-                });
-            }
+    //function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    //    if (markers.length > 1) {
+    //        for (var i = 1; i < markers.length - 1; i++) {
+    //            waypts.push({
+    //                location: markers[i].position,
+    //                stopover: true
+    //            });
+    //        }
 
 
-            directionsService.route({
-                    origin: markers[0].position,
-                    destination: markers[markers.length - 1].position,
-                    waypoints: waypts,
-                    optimizeWaypoints: false,
-                    travelMode: 'DRIVING'
-                },
-                function(response, status) {
-                    if (status === 'OK') {
-                        directionsDisplay.setDirections(response);
-                        var route = response.routes[0];
-                        var summaryPanel = document.getElementById('directions-panel');
-                        summaryPanel.innerHTML = '';
-                        // For each route, display summary information.
+    //        directionsService.route({
+    //                origin: markers[0].position,
+    //                destination: markers[markers.length - 1].position,
+    //                waypoints: waypts,
+    //                optimizeWaypoints: false,
+    //                travelMode: 'DRIVING'
+    //            },
+    //            function(response, status) {
+    //                if (status === 'OK') {
+    //                    directionsDisplay.setDirections(response);
+    //                    var route = response.routes[0];
+    //                    var summaryPanel = document.getElementById('directions-panel');
+    //                    summaryPanel.innerHTML = '';
+    //                    // For each route, display summary information.
 
-                    } else {
-                        window.alert('Directions request failed due to ' + status);
-                    }
-                });
-            waypts = [];
-            directionsDisplay.setMap(map);
-        }
-    }
+    //                } else {
+    //                    window.alert('Directions request failed due to ' + status);
+    //                }
+    //            });
+    //        waypts = [];
+    //        directionsDisplay.setMap(map);
+    //    }
+    //}
+    if (!$('#TrackEdit').css('display') == "block")
+        $('#PlaceDetailsEmpty').css({ "left": "9%" });
 </script>
-
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlr6EQIpiTn35E_RJ-TFvfo1vHKR_ajts&callback=initMap"
         type="text/javascript"></script>
 
 <div id="TrackEdit"></div>
-<div id="CreatePlacePanel"></div>
-<div id="PlaceDetails"></div>
+<div id="PlaceModel"></div>
+<div id="PlaceDetailsEmpty"> Загрузка...</div>
+<div id="CreateCommentPlaceEmpty"></div>
 

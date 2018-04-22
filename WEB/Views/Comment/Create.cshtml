@@ -1,0 +1,146 @@
+﻿@model WEB.Models.CommentModels
+<div class="modal fade" id="basicModalCommentPlace" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content-comment">
+            <button class="close" type="button" data-dismiss="modal">x</button>
+            <div class="modal-header-comment">
+                <h5 class="modal-title" id="myModalLabel">Оставьте ваш отзыв</h5>
+            </div>
+            <div class="modal-body-comment">
+                <div class="modal-rating-comment">
+                    <h6>Ваша оценка:</h6>
+                    <select id="example3">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                @using (Html.BeginForm("Create", "Comment", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                {
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @Html.HiddenFor(model => model.Author)
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.TextAreaFor(model => model.Text, 5, 500, new {maxlength = 4000, @class = "form-control", placeholder = "Поделитесь своим мнением с другими пользователями"})
+
+                                @Html.ValidationMessageFor(model => model.Text, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.TargetId)
+                        @Html.HiddenFor(model => model.Rating)
+                        @Html.HiddenFor(model => model.Assessment)
+                        @Html.HiddenFor(model => model.Picture)
+                        @Html.HiddenFor(model => model.TypeComment)
+
+                        <div class="ButtonUpload-comment">
+                            <div class="file-upload" data-text="Выберите файл">
+                                <input type="file"
+                                       onchange="$('#upload-file-info').html(this.files[0].name)" name="fileData" id="fileData" class="fileData">
+                            </div>
+                        </div>
+
+                        <span class='label label-info' id="upload-file-info"></span>
+
+                        <div class="ButtonCreate">
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <input type="submit" value="Отправить" class="btn btn-block btn-primary" id="sumbitCreateComment"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")"
+        type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"
+        type="text/javascript"></script>
+<script>
+    $('#images').change(function () {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Рарешены только следующие форматы изображений : " + fileExtension.join(', '));
+            $('#images').val(null);
+            $('#upload-file-info-photo').html("");
+        }
+    });
+</script>
+<script>
+    $('#SaveChanges').click(function () {
+        if ($('#images').val()[0] == null) {
+            alert("Вы не выбрали ни одного фото");
+            return false;
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        $('#example3').barrating({
+            theme: 'fontawesome-stars-o',
+            initialRating: '@Model.Rating',
+        });
+    });
+</script>
+<script>
+    $('#sumbitCreateComment').click(function () {
+        if ($('#Text').val().length == 0) {
+            alert("Вы не оставили комментарий");
+            return false;
+            }
+        var bar = $('.progress-bar');
+        var percent = $('.progress-bar');
+        var status = $('#status');
+        var id = "";
+        $('#Assessment').val($('#example3').val());
+
+
+        $('form').ajaxForm({
+            beforeSend: function() {
+                status.empty();
+                var percentVal = '0%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+            },
+            uploadProgress: function(event, position, total, percentComplete) {
+                var percentVal = percentComplete + '%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+            },
+            success: function(data) {
+                var percentVal = '100%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+                if (data == 1) {
+                    $("#CreateCommentPlaceEmpty").hide(300);
+                    $('#basicModalCommentPlace').modal('toggle');
+                    $('#StartComment').html("");
+                    $('#StartComment').append('<h5> Спасибо, что делаете наш сервис лучше! </h5>');
+                    $('#StartCommentTrack').html("");
+                    $('#StartCommentTrack').append('<h5> Спасибо, что делаете наш сервис лучше! </h5>');
+                }
+            },
+            complete: function(xhr) {
+            }});
+    });
+</script>
+<script>
+    $('#fileData').change(function () {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Рарешены только следующие форматы изображений : " + fileExtension.join(', '));
+            $('#fileData').val(null);
+            $('#upload-file-info').html("");
+        }
+    });
+</script>

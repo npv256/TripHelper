@@ -1,5 +1,8 @@
 ﻿@model WEB.Models.PlaceViewModels
-<div id="CreatePlaсePanel">
+<div id="CreatePlaсeView">
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
     @*@using (Ajax.BeginForm("Create", "Place", new AjaxOptions { UpdateTargetId = "PlaceCreatePanel", HttpMethod = "Post" }, new { enctype = "multipart/form-data" }))*@
     @using (Html.BeginForm("Create", "Place", FormMethod.Post, new {enctype = "multipart/form-data"}))
     {
@@ -62,7 +65,6 @@
         </div>
     }
 </div>
-
 <script>
     function pinSymbol(color) {
         return {
@@ -77,18 +79,24 @@
     }
 
     $('#sumbit').click(function () {
+        if(marker)
+        {
+        $('#Latitude').val(marker.position.lat());
+        $('#Longitude').val(marker.position.lng());
+            }
         if ($('#fileData').val()[0] == null) {
-            alert("You don't select files");
+            alert("Вы не выбрали ни одного фото");
             return false;
         }
         if ($('#Latitude').val() == "0" && $('#Longitude').val() == "0") {
-            alert("You didn't set marker");
+            alert("Вы не установили маркер на карте");
             return false;
         }
 
         var bar = $('.progress-bar');
         var percent = $('.progress-bar');
         var status = $('#status');
+        var id = "";
 
         $('form').ajaxForm({
             beforeSend: function() {
@@ -102,41 +110,73 @@
                 bar.width(percentVal)
                 percent.html(percentVal);
             },
-            success: function() {
+            success: function(data) {
                 var percentVal = '100%';
                 bar.width(percentVal);
                 percent.html(percentVal);
+                id = data;
             },
             complete: function (xhr) {
-                var id = $("#Name").val();
+                //id = $("#Name").val();
                 var location = marker.position;
                 marker.setMap(null);
                 marker = new google.maps.Marker({
                     position: location,
                     map: map,
-                    icon: pinSymbol("#183"),
-                    id: id
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    id: id,
+                    color: "blue"
                 });
-                $('#Latitude').val(marker.position.lat());
-                $('#Longitude').val(marker.position.lng());
                 marker.addListener('click', function() {
-                    $('#PlaceDetails').load('@Url.Action("Details", "Place")/' + id);
-                    map.setCenter(marker.getPosition());
+                    if(selectMarker!=null)
+                    {
+                        selectMarker.setAnimation(null);
+                        selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+                    }
+                    $('#PlaceDetailsEmpty').hide();
+                    $('#PlaceDetailsEmpty').load('@Url.Action("Details", "Place")/' + id);                   
+                    selectMarker = markers.find(x => x.id === id);
+                    selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                    selectMarker.setAnimation(google.maps.Animation.BOUNCE);
+                    map.setCenter(location);
+                    if (marker != null)
+                        marker.setMap(null);
                 });
+                $('#list-places').append(
+                        $('<a>').attr('id', id).attr('class', 'list-group-item').append($('<img>').attr('id', id)
+                            .attr('src', "http://maps.google.com/mapfiles/ms/icons/blue-dot.png")).append($('#Name').val())
+                );
 
                 markers.push(marker);
                 marker = null;
-                calculateAndDisplayRoute(directionsService, directionsDisplay);
+               // calculateAndDisplayRoute(directionsService, directionsDisplay);
                 status.html(xhr.responseText);
                 $('#Latitude').val(0);
                 $('#Longitude').val(0);
                 $('#Description').val("");
                 $('#Name').val("");
                 $('#fileData').val(null);
+                $('#upload-file-info').html("");
 
             }
         });
 
+    });
+</script>
+<script>
+    $('#fileData').change(function () {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Рарешены только следующие форматы изображений : " + fileExtension.join(', '));
+            $('#fileData').val(null);
+            $('#upload-file-info').html("");
+        }
+    });
+</script>
+<script>
+ $('.close').on('click', function (e) {
+     $("#PlaceModel").hide(300);
+     StatePlacePanel = false;
     });
 </script>
 
