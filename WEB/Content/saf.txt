@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/Content/jquery-bar-rating-master/dist/themes/fontawesome-stars-o.css">
+<script src="~/Content/jquery-bar-rating-master/dist/jquery.barrating.min.js"></script>
+
+
+ <select id="example">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option data-html="better"value="3">3</option>
+                <option data-html="good" value="4">4</option>
+                <option data-html="best" value="5">5</option>
+            </select>
+
+<script type="text/javascript">
+    $(function() {
+        $('#example').barrating({
+            theme: 'fontawesome-stars-o',
+            initialRating: '4.3'
+        });
+    });

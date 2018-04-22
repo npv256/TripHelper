@@ -31,7 +31,7 @@
                         <div class="ButtonUpload-track">
                             <div class="file-upload" data-text="Загрузить фото">
                                 <input type="file"
-                                       onchange="$('#upload-file-info-photo').html(this.files[0].name)" name="fileData" id="fileData" class="fileData"> 
+                                       onchange="$('#upload-file-info-photo').html(this.files[0].name)" name="images" id="images" multiple="Обзор"> 
                             </div>
                         </div>
 
@@ -40,7 +40,7 @@
                         <div class="ButtonUpload-track">
                             <div class="file-upload" data-text="Загрузить GEO-файл">
                                 <input type="file"
-                                       onchange="$('#upload-file-info-GEO').html(this.files[0].name)" name="kmlfile" id="kmlfile" class="kmlfile"> 
+                                       onchange="$('#upload-file-info-GEO').html(this.files[0].name)" name="geofile" id="geofile" class="geofile"> 
                             </div>
                         </div>
 
@@ -61,7 +61,7 @@
                         </div>*@
                     </div>
                     <div class="modal-footer-track"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
-                        <button class="btn btn-primary" type="submit" value="Create">Сохранить изменения</button></div>
+                        <button class="btn btn-primary" type="submit" id ="SaveChanges" value="Create">Сохранить изменения</button></div>
                 }
             </div>
         </div>
@@ -72,3 +72,31 @@
         type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"
         type="text/javascript"></script>
+<script>
+    $('#geofile').change(function () {
+        var fileExtension = ['gpx', 'kml'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Рарешены только следующие форматы гео-файлов : " + fileExtension.join(', '));
+            $('#geofile').val(null);
+            $('#upload-file-info-GEO').html("");
+        }
+    });
+</script>
+<script>
+    $('#images').change(function () {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Рарешены только следующие форматы изображений : " + fileExtension.join(', '));
+            $('#images').val(null);
+            $('#upload-file-info-photo').html("");  
+        }
+    });
+</script>
+<script>
+    $('#SaveChanges').click(function () {
+        if ($('#images').val()[0] == null) {
+            alert("Вы не выбрали ни одного фото");
+            return false;
+        }
+    });
+</script>

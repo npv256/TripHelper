@@ -27,6 +27,7 @@ namespace DLL.EF
             Database.SetInitializer(new TripHelperDbInitializer());
         }
 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

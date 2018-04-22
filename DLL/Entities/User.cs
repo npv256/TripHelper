@@ -12,6 +12,7 @@ namespace DLL.Entities
         public long? Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
         public virtual List<Track> SavedTracks { get; set; }
         public virtual List<Place> Places { get; set; }
         public virtual List<Track> CreatedTracks { get; set; }

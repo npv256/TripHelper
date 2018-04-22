@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WEB.Models.CommentModels>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container" id="container-list-comments">
+    <div class="list-group" id="list-comments-group">
+        @foreach (var comment in Model)
+        {
+            <div class="container-Comment">
+                <div class="AuthorComment">
+                    <h6>@comment.Author.Email</h6>
+                </div>
+                <div class="AssessmentComment">
+                @for (var i = 1; i < 6; i++)
+                {
+                    if (comment.Assessment >= i)
+                    {
+                        <span class="fa fa-star checked"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-star"></span>
+                    }
+                }
+                </div>
+                <div class="TextComment">
+                    <p>@comment.Text</p>
+                </div>
+                @if (comment.Picture != null)
+                {
+                    <div class="ImageComment">
+                        <img class="CommentImage" id="0" src="~/Content/Images/@comment.Picture.Name"/>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    </div>
+@*<script>
+    $(function () {
+        @foreach (var comment in Model)
+        {
+            <text>
+        $('#Comment_' + '@comment.Id').barrating({
+                theme: 'fontawesome-stars',
+            initialRating: '5',
+            readonly: true
+        });
+        </text>
+        }
+    });
+</script>*@
+    @*@foreach (var comment in @Model)
+    {
+        <text>
+    var html =
+        '<div id="@comment.Id" class="container-Comment"> ' +
+
+            '<div class="AuthorComment"><h5>@comment.Author.Email</h5>  </div>' +
+
+            ' <div class="AssessmentComment">' +
+            '<select id="Comment'+'@comment.Id">' +
+            '<option value="1">1</option>' +
+            '<option value="2">2</option>' +
+            '<option value="3">3</option>' +
+            '<option value="4">4</option>' +
+            '<option value="5">5</option>' +
+            '</select>' +
+            '</div>' +
+
+            '<div class="TextComment">'+
+            '<p>@comment.Text</p>'+
+            '</div>' +
+
+            '<div class="ImageComment">'+
+            '<img class="CommentImage" id="0" src="~/Content/Images/@comment.Picture.Name"/>'+
+            '</div>' +
+            '</div>';
+
+    $('#list-comments-group').append(html);
+    $(function () {
+        $('#Comment' + '@comment.Id').barrating({
+            theme: 'fontawesome-stars',
+            initialRating: '@comment.Assessment',
+            readonly: true
+        });
+    });
+
+        </text>
+
+    }*@

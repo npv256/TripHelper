@@ -32,31 +32,61 @@ background:white;
     }
 	
 	#PlaceDetails{
-		position: fixed;
+		position: absolute;
 		width : 410px;
 			height : 90%;
-			left : 2%;
+			left : 3%;
 			top: 9%;
 		border-color : black;
 		background : white;
-		box-shadow: 1px 1px 10px grey;
+		box-shadow: 1px 1px 50px grey;
 		border: 0.1px outset grey;
+		border-radius : 5px;
+		overflow-x: hidden;
+		overflow-y: auto;
 	}
 	
 	#PlaceDetailsContent
 	{
 		position: relative;
-		padding: 1%; 2%;
+		
 	}
 	
-	.PlaceImage{
-		width: 400px;
-		height: 200px;
-		position: relative;
+	#ClosePlaceDetails
+	{
+		position : fixed;
+		left : 21.5%;
 	}
 
+	.PlaceImage img{
+	width: 100%;
+	border-radius : 5px;
 	
-	#CreatePlacePanel{
+	}
+	
+	#StartComment{
+	position : relative;
+    box-shadow: 0px 0px 0.2px grey;
+	padding: 1% 5%;
+	}
+	
+	#CreateCommentPlace{
+		position : relative;
+		top: 3px;
+		padding: 0% 10%;
+		box-shadow: 0px 0px 5px grey;
+	}
+	
+	#PlaceModel{
+		position: fixed;
+		width : 320px;
+		right : 15px;
+		top: 100px;
+		background : white;
+		box-shadow: 2px 2px 2px grey;
+	}
+	
+	#EditPlaсeView{
 		position: fixed;
 		width : 320px;
 		right : 15px;
@@ -74,22 +104,43 @@ background:white;
 		left : 7px;
 		padding-left: 1px;
 		border: 1px outset #8f7d75;
+		border-radius : 5px;
+		overflow-x : hidden;
 	}	
+	
+	#list-places{
+		position : relative;
+		
+		
+		overflow: auto;
+		height : 450px;
+	}
+	
+	#Places-Track{
+		position : relative;
+	}
+		
 	
 		#TrackImage img {
     width: 100%;
 }
 
+
 	.TrackName{
 	position:relative;
-	padding: 1% 5%;
 	}
 	
 	.TrackRating{
 	position:relative;
 	padding: 3% 3% % 3%;
 	}
-
+	
+	
+	.AddPlaceToTrack{
+		position: relative;
+	padding: 3% 3%;
+	}
+	
 	.ButtonPanel{
 	    position: fixed;
 		width : 340px;
@@ -103,6 +154,7 @@ background:white;
 	
 	.caption{
 		position: relative;
+		padding: 0px 20px;
 		overflow-x:hidden;
 	}
 	
@@ -110,6 +162,57 @@ background:white;
 		position: absolute;
 	left : 0px;	
 	}
+	
+	 .animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
+
+.stars
+{
+    margin: 20px 0;
+    font-size: 24px;
+    color: #d17581;
+}
+/*Комментарий рейтинг звезда*/
+.checked {
+    color: orange;
+}
+
+#StartCommentTrack{
+position : relative;
+padding : 10% 10%;
+}
+/*Commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmments*/
+.container-Comment{
+position : relative;
+ box-shadow: 0px 0px 0.1px grey;
+}
+
+.AuthorComment{
+	position: relative;
+	top: 10px;
+	left : 10%;
+}
+
+.TextComment{
+	position : relative;
+	left : 10%;
+	width : 330px;
+}
+
+.ImageComment img{
+	position : relative;
+	width: 60%;
+	left : 10%;
+}
+
+.AssessmentComment
+{
+	position : relative;
+	left : 10%;
+}
 	
 	html, body{
   min-height:100%;
@@ -287,6 +390,37 @@ padding: 5% 5%;
 	  margin: px ;
 	  padding: 2% 0%;
 }
+.modal-header-comment{
+padding-top: 5%;
+padding-left : 10%;
+}
+
+.modal-rating-comment{
+padding: 0 5%;
+}
+.modal-content-comment{
+top:200px;
+position: relative;
+width:400px;
+background:white;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+.modal-body-comment{
+position:relative;
+width: 100%;
+padding: 0% 10%;
+}
+.modal-footer-comment{
+position:relative;
+padding: 5% 5%;
+}
+ .ButtonUpload-comment {
+	  position: relative;
+	  width : 280px;
+	  margin: px ;
+	  padding: 2% 0%;
+}
 
 .Track{
 display: grid;
@@ -307,6 +441,8 @@ overflow: hidden;
 .TrackImage{
 	
 }
+
+
 
 /* COPY  -------------------------------------------------------------------------------------------------------------    PAST*/
 
@@ -845,3 +981,31 @@ img.bg {
     display: none;
 }
 /*подсветка*/
+
+.star{
+    background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAABQCAYAAAAZQFV3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABOFJREFUeNrsmEFoHFUYx9/MdHfTJRKzUhBaFiL1YghZCFQUIV6UQJuLWCgr8eKpIoiFSqsHQYrmYj14KHqxKAl6MbA5eCgKRVAMBhpCwIJQCETRQzTsNtnO7s74+17fbGc3M7OzZhUsHfjzdvd97/++973vff99Y/m+rwb5WL0Idz60h2nckTc8Nw2hncLmAnhtIB7i3VGan8VD8Dhebh+U8FOaX8Bh4EB48R8TQlai+QnkgMTxD/AYpFt9EULk0EyBD8Dn4BPT9TZ4CrwD6Wos4V+XrUdpXzQk4tUEkAFXwNUu+1fAWWO7anADLDLJTkCYpf0K3DQe3Ui5oUI6B8ShlyBstZfMMiXoX4MV8GZKQgnJcXA6nKPtGJoE/gZ8Cy6mIJPwnIJsL3ZTIB2h+U6WANZjyE6Aj8Cz3WT7TooJ7HUwneDdc+BaFFnc0SuCzQTCTWOT+iwfN6cjWJ6clo9NzOS5Bcb6IZTZj5pU+syEYNV8XzA2Y6lOCptyhGbDeDFPnJa6TlGZ5rxJ/nxkSRPCACR5EUyHf4sCNjOgENVn/ecVe+CEy8vLWgJmZ2fd1IRra2vxSbe5eYlmu1gsXo6zmZycTKcpkEn6vC61kM+FQYiUeDdvauP5Ay0ZjyIlgKVv9bVkiBwQVJRX2YwWkKLxrhxB+qYSPaxUKrESANHVrh2PlQAzqSbskAA6UkkA5B0SICvRSzb5ddrMWu4jh8umSLwckLVjSKClWJ6SwsrM76fwLpCAM4x1I9OGjhrN8+AkAyYSyGTDnhEHjCPxeYhBagmIIvtXJOBQkgSY5Z01/76umAy4lbpiG5IqzQuG6Alz9LLmf+IP5hh+AfmxnoSQdUgAg5a6JuuQgMiSFi7fJHkR9JQAbGbA/SoBi4uLWgLK5XIqCdBpkyQBZne3sTm4BGxsbLQlgM+DkYBsNjucyWQKaSXATvCuZFnWHIQqlxMVUOeMx/0RMsgBWgIgcyBVgqwwIwH0JUvAwsJChwQwuOQ4jrJtO/CsfQBc11We56lWqyXfOySALNgJdlmuWzNSB/P5vBKyyJnxMjxBs9mc2tvbEye+DN1l7uYhuaZvAXg1LaQyOOkRL3d3d8XLishHOEd1DMfHx7UEYLjCrCop2aXP2Mht4QxjoyWADi0BxGddZm80GjpWYSL5TfpkYnHAOBK/yxhoCZAl1et1PbharWrUajX9m/SJBESRJUlAr6fvW0CvZyyxOIQPN4kbnv1mlwQERGPhMbHli/Q5Yv5lSdDnSYelrlLWIQGRJS1cvjk1RdBTArCZAferBPT7IkjvcuP7t3pKADaxEpB5+r10FXv3x3kKqqUlgM+DkQB76OFhKzdycAnAo5KynTlraFTZQ4/gqH3ursd9EjLIAVoC7KGCAxFWNqSjWgLoS5aAfS+C7EzJcrLKOjSkrNwoFu0ToPz6n8pv3dFQXjPyRdA9CbDsk/ZDx5SQxWiAsg4X7vE361NedQsn/P0SELwIgmzaHiZMtpMcKK+pWlUuVF6j0v0iSMcw/+QFLQF+y13xbv/GpF4CWUt5tV+FTEsAY6MlgA4tASxlnaUo362yLGLlh2Lo1iCjj4nFAeNI/H9sDHbYxesEfcK//XvSoq9Fkf0/JCDqDWfV3I+TJGCLne19CzAvgtoS8OBF0APC6OdvAQYAj2xzC/IfXBsAAAAASUVORK5CYII=');
+    background-position:left -2px;
+    display:block;
+    width:20px;
+    height:16px;
+    line-height:16px;
+    float:left;
+    cursor: pointer;
+    zoom:1;
+}
+
+.fullStar{
+    background-position:left -59px;
+}
+
+.stars{
+    overflow: hidden;
+}
+
+.tmp_es{
+    background-position:left -21px;
+}
+
+.tmp_fs{
+    background-position:left -40px;
+}
