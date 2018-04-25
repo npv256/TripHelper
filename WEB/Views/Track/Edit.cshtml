@@ -3,7 +3,7 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="~/Scripts/gmaps.js"></script>
 <script>
-  
+
     var StatePlacePanel = false;
     var markers = [];
     var marker;
@@ -16,6 +16,7 @@
     var url = '@Model.TrackKml';
     var directionsService;
     var selectMarker;
+    var ctaLayer;
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'),
@@ -53,24 +54,36 @@
             //  url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
             //calculateAndDisplayRoute(directionsService, directionsDisplay);
             // url: '@Url.Action("Details", "Place");',
-            url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
-            var ctaLayer = new google.maps.KmlLayer({
+            url: 'https://raw.githubusercontent.com/npv256/TripHelper/master/25817.gpx';
+             ctaLayer = new google.maps.KmlLayer({
                 url: url,
                 map: map,
                 suppressInfoWindows: true,
                 clickable: false
-            });        
+             });
+            google.maps.event.addListener(ctaLayer,
+                'defaultviewport_changed',
+                function() {
+                    var bounds = ctaLayer.getDefaultViewport();
+                    map.setCenter(bounds.getCenter());
+                });
         }
         else
         {
-            url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Baigura.kml';
-            //  url = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Tracks/' + '@Model.TrackKml';
-            var ctaLayer = new google.maps.KmlLayer({
-                url: url,
+            var url1 = 'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Tracks/'+'@Model.TrackKml';
+             ctaLayer = new google.maps.KmlLayer({
+                url: url1 ,
                 map: map,
                 suppressInfoWindows: true,
                 clickable: false
             });
+             console.log(url1);
+            google.maps.event.addListener(ctaLayer,
+                'defaultviewport_changed',
+                function() {
+                    var bounds = ctaLayer.getDefaultViewport();
+                    map.setCenter(bounds.getCenter());
+                });
         }
 
         google.maps.event.addListener(map,
@@ -111,7 +124,7 @@
                 position: location,
                 map: map,
                 icon: colorMarker,
-                id: id, 
+                id: id,
                 color: color
             });
 
@@ -155,7 +168,7 @@
             });
         }
 
-        $('#TrackEdit').load('@Url.Action("Details", "Track")/' + @Model.Id);    
+        $('#TrackEdit').load('@Url.Action("Details", "Track")/' + @Model.Id);
         $("#PlaceModel").hide();
 
         bindDomElemToObjProp($("#Latitude"));
@@ -211,4 +224,5 @@
 <div id="PlaceModel"></div>
 <div id="PlaceDetailsEmpty"> Загрузка...</div>
 <div id="CreateCommentPlaceEmpty"></div>
+<div id="CreateCommentTrackEmpty"></div>
 

@@ -101,7 +101,9 @@ namespace WEB.Controllers
                             if (file.Extension == ".gpx" || file.Extension == ".kml")
                             {
                                 string fname = file.Name.Remove((file.Name.Length - file.Extension.Length));
-                                fname = fname + System.DateTime.Now.ToString("_ddMMyyhhmmssms") + file.Extension;
+
+                                fname = fname + file.Extension;
+                               // fname = fname + System.DateTime.Now.ToString("_ddMMyyhhmmssms") + file.Extension;
                                 geoFile.SaveAs(Server.MapPath("../Content/Tracks/" + fname));
                                 trackModel.TrackKml = fname;
                             }
@@ -182,18 +184,29 @@ namespace WEB.Controllers
             return View(trackVM);
         }
 
-        public ActionResult CheckPlaceInTrack(long idPlace, long idTrack)
+        public ActionResult CheckPlaceInTrack(long idPlace, string idTrack)
         {
             if(!User.Identity.IsAuthenticated)
                 return Json(3, JsonRequestBehavior.AllowGet);
-            if (_trackService.GetItemList().FirstOrDefault(track => track.Id == idTrack) != null)
+            try
             {
-                if (_trackService.GetItem(idTrack).Places.FirstOrDefault(place => place.Id == idPlace) != null)
+                if (idTrack.Contains('='))
+                    idTrack = idTrack.Substring(idTrack.LastIndexOf('=')+1);
+                if(idTrack == "")
+                    return Json(4, JsonRequestBehavior.AllowGet);
+                if (_trackService.GetItemList().FirstOrDefault(track => track.Id == long.Parse(idTrack)) != null)
+            {
+                if (_trackService.GetItem(long.Parse(idTrack)).Places.FirstOrDefault(place => place.Id == idPlace) != null)
                     return Json(1, JsonRequestBehavior.AllowGet);
                 else
                     return Json(0, JsonRequestBehavior.AllowGet);
             }
             return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult AddPlaceInTrack(long idPlace, long idTrack)
@@ -205,6 +218,36 @@ namespace WEB.Controllers
             _trackService.Update(track);
             _trackService.Save();
              return Json(1, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult RemovePlaceInTrack(long idPlace, long idTrack)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Json(3, JsonRequestBehavior.AllowGet);
+            var track = _trackService.GetItem(idTrack);
+            track.Places.Remove(_placeService.GetItem(idPlace));
+            _trackService.Update(track);
+            _trackService.Save();
+            return Json(1, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CheckTracksByPlace(long id)
+        {
+           var trackList = _trackService.GetItemList().ToList();
+            var tracks = trackList.Where(track => track.Places.Exists(place => place.Id == id)).ToList();
+            if (tracks.Count == 0)
+                return Json(0, JsonRequestBehavior.AllowGet);
+            else
+                return Json(tracks.Count, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetTracksByPlace(long id)
+        {
+            var tracks = _trackService.GetItemList().ToList().Where(track => track.Places.Exists(place => place.Id == id));
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Track, TrackViewModels>());
+            var mapper = config.CreateMapper();
+            var trackList = mapper.Map<List<Track>, List<TrackViewModels>>(tracks.ToList());
+            return PartialView(trackList);
         }
 
         // POST: Track/Edit/5

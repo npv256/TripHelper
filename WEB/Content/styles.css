@@ -55,8 +55,31 @@ background:white;
 	#ClosePlaceDetails
 	{
 		position : fixed;
-		left : 21.5%;
+		top: 9%;
+		left : 21.4%;
+		background:white;
+		border-radius: 100% 100%;
 	}
+	
+	.close {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 18px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.5;
+    filter: alpha(opacity=20);
+    text-decoration: none;
+    display:inline;
+}
+.close:hover {
+    display:inline;
+    color: #000000;
+    text-decoration: none;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    cursor: pointer;
+}
 
 	.PlaceImage img{
 	width: 100%;
@@ -139,6 +162,39 @@ background:white;
 	.AddPlaceToTrack{
 		position: relative;
 	padding: 3% 3%;
+	}
+	
+	#GetTracksByPlace{
+	position: relative;
+	padding: 2% 5%;
+	}
+	
+	#TrackInPlace
+	{
+			position: relative;
+			padding: 3% 5%;
+			box-shadow: 0px 0px 0.5px grey;
+	}
+	
+	.TracksInPlace{
+	position: relative;
+	padding: 1% 5%;
+	box-shadow: 0px 0px 0.1px grey;
+	}
+	
+	.TrackNameInPlace
+		
+	}
+	
+	.RatingTrackInPlace
+	{
+		position:relative;
+		
+	}
+	
+	.TrackInPlaceImage img
+	{
+		   width: 70%;
 	}
 	
 	.ButtonPanel{

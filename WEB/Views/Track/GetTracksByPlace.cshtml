@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WEB.Models.TrackViewModels>
+<div class="TracksInPlace">
+    <div class="list-group">
+        @foreach (var i in @Model)
+        {
+            <div id="TrackInPlace" class="list-group-item">
+                <div id="TrackInPlace_@i.Id" trackGEO="@i.TrackKml">
+                    <div class="TrackNameInPlace">
+                        <h6>
+                            @i.Name
+                        </h6>
+                    </div>
+                    <div class="RatingTrackInPlace">
+                        @for (var j = 1; j < 6; j++)
+                        {
+                            if (i.Rating >= j)
+                            {
+                                <span class="fa fa-star checked"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                        }
+                    </div>
+                    <div class="TrackInPlaceImage">
+                        <img class="group list-group-image" src="~/Content/Images/@i.Pictures.FirstOrDefault().Name" alt=""/>
+                    </div>
+                    <a  class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/Track/Edit/@i.Id">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+            <script>
+                var oldUrl = ctaLayer.getUrl();
+                $('#TrackInPlace_' + @i.Id).mouseenter(
+                    function(e) {
+                        var newUrl =   'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Tracks/' + '@i.TrackKml';
+                        if (this.map !== null && ctaLayer !== null) {
+                            if(ctaLayer.getUrl()!= newUrl)
+                            ctaLayer.setUrl(newUrl);
+                        } else {
+                            ctaLayer = new google.maps.KmlLayer({
+                                url: newUrl,
+                                map: map,
+                                suppressInfoWindows: true,
+                                clickable: false
+                            });
+                            google.maps.event.addListener(ctaLayer, 'defaultviewport_changed', function() {
+                                var bounds = ctaLayer.getDefaultViewport();
+                                map.setCenter(bounds.getCenter());
+                            });
+                        }
+                    }).mouseleave(function(e) {
+                        if(ctaLayer.getUrl()!= oldUrl)
+                    ctaLayer.setUrl(oldUrl);
+                });
+            </script>
+        }
+        </div>
+    </div>

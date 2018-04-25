@@ -13,13 +13,13 @@ namespace WEB.Models
         [Key]
         public long Id { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 5)]
+        [StringLength(200, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 5)]
         public string Name { get; set; }
 
         public  List<CommentPlace> Comments { get; set; }
 
         [Required]
-        [StringLength(500, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 50)]
+        [StringLength(1000, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 50)]
         public string Description { get; set; }
 
         public double Rating { get; set; }

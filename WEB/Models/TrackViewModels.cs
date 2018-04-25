@@ -11,8 +11,7 @@ namespace WEB.Models
     {
         [Key]
         public long Id { get; set; }
-        [Required]
-        [StringLength(30, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 10)]
+        [Required]     
         public string Name { get; set; }
         public virtual List<Place> Places { get; set; }
         public string Description { get; set; }
