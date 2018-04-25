@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    <div class="Comments">
+    <div class="Comments-Track">
 
     </div>
     <div id="StartCommentTrack">
@@ -77,8 +77,8 @@
 <script>
     $('#CreatePlace').hide();
     $('#StartCommentTrack').hide();
-    $('#CreateCommentPlaceEmpty').empty();
-    $('#CreateCommentPlaceEmpty').load('@Url.Action("Create", "Comment")/?id=' +
+    $('#CreateCommentTrackEmpty').empty();
+    $('#CreateCommentTrackEmpty').load('@Url.Action("Create", "Comment")/?id=' +
         @Model.Id +
         '&typeComment=' +
         'Track',
@@ -101,16 +101,16 @@
                             $('#CreatePlace').show();
                         }
                     }
-                    $('.Comments').empty();
-                    $('.Comments')
+                    $('.Comments-Track').empty();
+                    $('.Comments-Track')
                         .load(
                             '@Url.Action("GetComments", "Comment")/?id=' +
                             @Model.Id +
                             '&typeComment=' +
                             'Track',
                             function(e) {
-                                if ($('.Comments').html() == "0") {
-                                    $('.Comments').empty();
+                                if ($('.Comments-Track').html() == "0") {
+                                    $('.Comments-Track').empty();
                                 }
                             });
                 });
@@ -228,7 +228,8 @@
         $('.carousel').carousel();
         $('#example').barrating({
             theme: 'fontawesome-stars-o',
-            initialRating: '@Model.Rating'
+            initialRating: '@Model.Rating',
+            readonly: true
         });
     });
 </script>
@@ -241,7 +242,8 @@
                 return;
             }
             if( $('#CheckExistComment').html() == 0)
-                $('#CreateCommentPlaceEmpty').show(300);
+
+                $('#CreateCommentTrackEmpty').show(300);
         });
 </script>
 <script>

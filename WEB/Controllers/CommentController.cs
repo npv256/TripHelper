@@ -32,7 +32,7 @@ namespace WEB.Controllers
         {
             if(!User.Identity.IsAuthenticated)
                 return Json(3, JsonRequestBehavior.AllowGet);
-            var author = _userService.GetItemList().FirstOrDefault(user => user.Email == User.Identity.Name);
+            var author = _userService.GetItemList().ToList().FirstOrDefault(user => user.Email == User.Identity.Name);
             if (typeComment == "Place")
             {
                 var query = _placeService.GetItem(id).Comments.FirstOrDefault(comment=>comment.Author==author);

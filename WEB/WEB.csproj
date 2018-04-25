@@ -867,6 +867,7 @@
     <Content Include="Views\Track\Edit.cshtml" />
     <Content Include="Views\Comment\Create.cshtml" />
     <Content Include="Views\Comment\GetComments.cshtml" />
+    <Content Include="Views\Track\GetTracksByPlace.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

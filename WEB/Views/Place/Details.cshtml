@@ -1,7 +1,9 @@
 ﻿@model WEB.Models.PlaceViewModels
 <div id="PlaceDetails">
     <div id="PlaceDetailsContent">
-        <button class="close" id="ClosePlaceDetails" type="button" data-dismiss="modal">x</button>
+        @*<button class="close" id="ClosePlaceDetails" type="button" data-dismiss="modal">x</button>*@
+        @*<a id="user-list-tab-li" style="display:inline;" href="#user-list-tab-pane">The tab</a>*@ 
+        <span class="close" id="ClosePlaceDetails" data-dismiss="modal">×</span>
         <div class="PlaceImage">
             <img class="group list-group-image" src="~/Content/Images/@Model.Pictures.FirstOrDefault().Name" alt="" />
         </div>
@@ -34,55 +36,99 @@
                                             data-target="#basicModalCommentPlace" id="OpenCreateComment">Да</button> <button type="button" class="btn btn-default" id="CloseCreateComment">Нет</button> </h5>
     </div>
     <div class="AddPlaceToTrack">
-    <button type="button" class="btn btn-success col-md-12 " id ="AddPlaceInTrack">Добавить в маршрут</button>
-</div>
+        <button type="button" class="btn btn-success col-md-12 " id ="AddPlaceInTrack">Добавить в маршрут</button>
+    </div>
+    <div class="RemovePlaceInTrack">
+        <button type="button" class="btn btn-danger col-md-12 " id="RemovePlaceInTrack">Удалить из маршрута</button>
+    </div>
+        <button type="button" id="GetTracksByPlace" class="btn btn-info col-md-12 ">Показать маршруты с этим местом</button>
+    <div class="ListTrackByPlace">
+
+    </div>
 </div>
 <div id="CheckExistComment"></div>
 <div id="CheckPlaceInTrack"></div>
+<div id="CheckExistTrackByPoint"></div>
 <script>
     var href = window.location.href;
     var value = href.substring(href.lastIndexOf('/') + 1);
+    if(value.indexOf('=') != -1)
+        value =  value.substring(value.lastIndexOf('=') + 1);
     $('.AddPlaceToTrack').hide();
     $('#StartComment').hide();
+    $('#RemovePlaceInTrack').hide();
     $('#CreateCommentPlaceEmpty').empty();
-    $('#CreateCommentPlaceEmpty').load('@Url.Action("Create", "Comment")/?id=' + @Model.Id + '&typeComment=' + 'Place',function(e) {
-        $('#CheckExistComment').load('@Url.Action("CheckCommentExist", "Comment")/?id=' + @Model.Id + '&typeComment=' + 'Place',function(e) {
-                if ($('#CheckExistComment').html() == 1)
-                    $('#StartComment').empty();
-                else {
-                    $('#StartComment').show();
-                }
-                $('.Comments').empty();
-                $('.Comments')
-                    .load(
-                        '@Url.Action("GetComments", "Comment")/?id=' +
-                        @Model.Id +
-                        '&typeComment=' +
-                        'Place',
-                        function(e) {
-                            if ($('.Comments').html() == "0") {
-                                $('.Comments').empty();
-                            }
-                            if (value.isNumeric)
+    $('#CreateCommentPlaceEmpty').load('@Url.Action("Create", "Comment")/?id=' +
+        @Model.Id +
+        '&typeComment=' +
+        'Place',
+        function(e) {
+            $('#CheckExistComment').load('@Url.Action("CheckCommentExist", "Comment")/?id=' +
+                @Model.Id +
+                '&typeComment=' +
+                'Place',
+                function(e) {
+                    if ($('#CheckExistComment').html() == 1)
+                        $('#StartComment').empty();
+                    else {
+                        $('#StartComment').show();
+                    }
+                    $('.Comments').empty();
+                    $('.Comments')
+                        .load(
+                            '@Url.Action("GetComments", "Comment")/?id=' +
+                            @Model.Id +
+                            '&typeComment=' +
+                            'Place',
+                            function(e) {
+                                if ($('.Comments').html() == "0") {
+                                    $('.Comments').empty();
+                                }
                                 $('#CheckPlaceInTrack').load(
-                                    '@Url.Action("CheckPlaceInTrack", "Track")/?idPlace=' + @Model.Id + '&idTrack=' + value,
+                                    '@Url.Action("CheckPlaceInTrack", "Track")/?idPlace=' +
+                                    @Model.Id +
+                                    '&idTrack=' +
+                                    value,
                                     function(e) {
                                         if ($('#CheckPlaceInTrack').html() == 3);
                                         //window.location.replace('@Url.Action("Login", "Account")');
-                                        if ($('#CheckPlaceInTrack').html() == 1);
+                                        if ($('#CheckPlaceInTrack').html() == 1)
+                                            $('#RemovePlaceInTrack').show();
                                         if ($('#CheckPlaceInTrack').html() == 0)
                                             $('.AddPlaceToTrack').show();
-                                    });
+                                        $('#PlaceDetailsEmpty').show(300);
+                                        $('#CheckExistTrackByPoint').load(
+                                            '@Url.Action("CheckTracksByPlace", "Track")/' + @Model.Id,
+                                            function() {
+                                                if ($('#CheckExistTrackByPoint').html() == 0)
+                                                    $('#GetTracksByPlace').hide();
+                                                else {
+                                                    $('#GetTracksByPlace')
+                                                        .text('Показать ' +
+                                                            $('#CheckExistTrackByPoint')
+                                                            .html() +
+                                                            ' маршрутов с этим местом');
+                                                    $('.ListTrackByPlace').load(
+                                                        '@Url.Action("GetTracksByPlace", "Track")/' +
+                                                        @Model.Id,
+                                                        function() {
+                                                            $('.ListTrackByPlace').hide();
+                                                            $('#GetTracksByPlace').show();
 
-                        });
-                $('#PlaceDetailsEmpty').show(300);
-            }
-        );
-    });
+                                                        });
+                                                }
+                                            });
+                                    }
+                                );
+                            });
+                });
+        });
 </script>
 <script>
+    $('#GetTracksByPlace').hide();
     $(document).ready(function() {
         $('#CheckExistComment').hide();
+        $('#CheckExistTrackByPoint').hide();
         $('#PlaceRating').barrating({
             theme: 'fontawesome-stars-o',
             initialRating: '@Model.Rating',
@@ -161,21 +207,120 @@
                                 selectMarker.setAnimation(google.maps.Animation.BOUNCE);
                                 $('#PlaceDetailsEmpty').hide();
                                 $('#PlaceDetailsEmpty').load('@Url.Action("Details", "Place")/?id=' + idThisPlace);
-                        map.setCenter(location);
-                        if (marker != null)
-                            marker.setMap(null);
+                                map.setCenter(location);
+                                if (marker != null)
+                                    marker.setMap(null);
                             });
                         oldMarker.setMap(null);
                         markers.splice(index, 1, marker);
                         selectMarker.setMap(null);
 
-                    $('#list-places').append(
-                        $('<a>').attr('id', idThisPlace).attr('class', 'list-group-item').append($('<img>').attr('id', selectMarker.idThisPlace)
-                            .attr('src', "http://maps.google.com/mapfiles/ms/icons/blue-dot.png")).append('@Model.Name')
-                    );
+                        $('#list-places').append(
+                            $('<a>').attr('id', idThisPlace).attr('class', 'list-group-item').append($('<img>').attr('id', selectMarker.idThisPlace)
+                                .attr('src', "http://maps.google.com/mapfiles/ms/icons/blue-dot.png")).append('@Model.Name')
+                        );
                         marker = null;
                         $('#PlaceDetailsEmpty').hide();
-                        }
+                    }
                 });
         });
+</script>
+<script>
+    var href = window.location.href;
+    var value = href.substring(href.lastIndexOf('/') + 1);
+    $('#RemovePlaceInTrack').on('click',
+        function(e) {
+            $('#RemovePlaceInTrack').hide();
+            $('#CheckPlaceInTrack').empty();
+            $('#CheckPlaceInTrack').load(
+                '@Url.Action("RemovePlaceInTrack", "Track")/?idPlace=' + @Model.Id + '&idTrack=' + value,
+                function(e) {
+                    var idThisPlace = selectMarker.id;
+                    if ($('#CheckPlaceInTrack').html() == 1) {
+                        var oldMarker = markers.find(x => x.id === idThisPlace);
+                        var index = markers.indexOf(oldMarker);
+                        var location = selectMarker.position;
+                        marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/yellow.png',
+                            id: idThisPlace,
+                            color: "yellow"
+                        });
+                        marker.addListener('click',
+                            function() {
+                                if (selectMarker != null) {
+                                    selectMarker.setAnimation(null);
+                                    selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow.png');
+                                }
+                                selectMarker = markers.find(x => x.id === idThisPlace);
+                                selectMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                                selectMarker.setAnimation(google.maps.Animation.BOUNCE);
+                                $('#PlaceDetailsEmpty').hide();
+                                $('#PlaceDetailsEmpty').load('@Url.Action("Details", "Place")/?id=' + idThisPlace);
+                                map.setCenter(location);
+                                if (marker != null)
+                                    marker.setMap(null);
+                            });
+                        oldMarker.setMap(null);
+                        markers.splice(index, 1, marker);
+                        selectMarker.setMap(null);
+
+                        $('#'+idThisPlace).remove();
+                        @*$('<a>').attr('id', idThisPlace).attr('class', 'list-group-item').append($('<img>').attr('id', selectMarker.idThisPlace)
+                                .attr('src', "http://maps.google.com/mapfiles/ms/icons/yellow.png")).append('@Model.Name')
+                        );*@
+                        marker = null;
+                        $('#PlaceDetailsEmpty').hide();
+                    }
+                });
+        });
+</script>
+<script>
+    var flag = 0;
+    $('#GetTracksByPlace').on('click',
+        function(e) {
+            if(flag == 0)
+            {
+                $('#GetTracksByPlace').text('Скрыть маршруты');
+                $('.GetTracksByPlace').hide();
+                $('.ListTrackByPlace').show();
+                flag = 1;
+            }
+            else {
+                $('#GetTracksByPlace')
+                    .text('Показать ' +
+                        $('#CheckExistTrackByPoint')
+                        .html() +
+                        ' маршрутов с этим местом');
+                $('.GetTracksByPlace').show();
+                $('.ListTrackByPlace').hide();
+                flag = 0;
+            }
+
+        });
+</script>
+<script>
+    @*@foreach(var track in Model.Tracks)
+        {
+            <text>
+    $('#TrackInPlace_' + @track.Id).mouseenter(
+        function(e) {
+            var oldUrl = ctaLayer.getUrl();
+            var newUrl =   'https://raw.githubusercontent.com/npv256/TripHelper/master/WEB/Content/Tracks/' + '@track.TrackKml';
+            if (this.map !== null && this.kmlLayer !== null && this.kmlLayer.setMap) {
+                this.ctaLayer.setUrl(newUrl);
+            } else {
+                var ctaLayer = new google.maps.KmlLayer({
+                    url: newUrl,
+                    map: map,
+                    suppressInfoWindows: true,
+                    clickable: false
+                });
+        }
+    }).mouseleave(function(e) {
+        this.ctaLayer.setUrl(oldUrl);
+    });
+    </text>
+            }*@
 </script>

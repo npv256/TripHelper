@@ -35,6 +35,7 @@ namespace UnitTests
 
         private Mock<IService<Track>> _mockTrack;
         private Mock<IService<User>> _mockUser;
+        private Mock<IService<Place>> _mockPlace;
         private TrackController _controller;
 
         private Track track1;
@@ -49,7 +50,7 @@ namespace UnitTests
             }
             _mockTrack = new Mock<IService<Track>>();
             _mockUser = new Mock<IService<User>>();
-            _controller = new TrackController(_mockUser.Object, _mockTrack.Object);
+            _controller = new TrackController(_mockUser.Object, _mockTrack.Object, _mockPlace.Object);
             track1 = new Track() {Name = "firstTrack", Description = "FirstTrackDescription",};
             track2 = new Track() {Name = "secondTrack", Description = "secondTrackDescription",};
                 _trackService.Create(track1);
@@ -61,7 +62,7 @@ namespace UnitTests
         public void Details_GetView_CheckRightView()
         {
 
-            _controller = new TrackController(_mockUser.Object, _trackService);
+            _controller = new TrackController(_mockUser.Object, _trackService, _mockPlace.Object);
 
             var result = _controller.Details(_trackService.GetItemList().FirstOrDefault().Id.Value) as PartialViewResult; 
 
@@ -143,7 +144,7 @@ namespace UnitTests
         [TestMethod]
         public void Edit_GetView_CheckRightView()
         {
-            _controller = new TrackController(_mockUser.Object, _trackService);
+            _controller = new TrackController(_mockUser.Object, _trackService, _mockPlace.Object);
 
             var result = _controller.Edit(_trackService.GetItemList().FirstOrDefault().Id.Value) as ViewResult; 
             var resultData = (TrackViewModels) result.ViewData.Model;
@@ -160,7 +161,7 @@ namespace UnitTests
         [TestMethod]
         public void Delete_ClickDelete_CheckWork()
         {
-            _controller = new TrackController(_mockUser.Object, _trackService);
+            _controller = new TrackController(_mockUser.Object, _trackService, _mockPlace.Object);
             var lastTrackBeforeDel = _trackService.GetItemList().LastOrDefault();
 
             var result = _controller.Delete(lastTrackBeforeDel.Id.Value) as RedirectToRouteResult;
